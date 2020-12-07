@@ -1,0 +1,44 @@
+footer{
+	/*display: block;
+	height: 30px;
+	margin-top: -80px;
+	*/
+
+	width: 100%;
+	bottom: 0;
+}
+body{
+	width: auto;
+	height: auto
+}
+
+/*---Tables---*/
+table{
+	margin: auto
+}
+
+.orange th {border-color: white; background-color:rgb(235, 143, 56);color: white;}
+/*---Buttons---*/
+
+.has-error{
+	font-size:13px;
+	font-weight: 600;
+	font-family: Arial, Helvetica, sans-serif;
+	width:auto;
+	color:#8e0000;
+}
+
+.orange_button{
+	position: relative; 
+	left: 50%;
+	transform: translate(-50%, 0);
+	font-weight: 700;
+  	color: white;
+  	text-decoration: none;
+  	padding: .5rem 1rem;
+  	border-radius: 0.5rem;
+  	background: rgb(235, 143, 56);
+  	transition: 0.2s;
+}
+.orange_button:hover {background: rgba(219, 134, 78, 0.76); }
+.orange_button:active {background: rgb(168, 110, 43); }

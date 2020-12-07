@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Trainer | Admin</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/my_style.css">
+    <link rel="stylesheet" href="course/test_styles.css">
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="manage_data.js"></script>
+    <!--<script src="console/console_js.js"></script>-->
+
+</head>
+
+<body>
+     <?php 
+    session_start();
+
+    require_once("functions.php");
+    ?>
+ <!--##### Header Area Start ##### -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+        <div class="clever-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="cleverNav">
+                    <!-- Logo -->
+                    <a class="nav-brand" href="course/courses.html"><img src="img/core-img/logo.png" alt=""></a>
+                        <!-- Register / Login -->
+                        <div class="register-login-area">
+                            <text style=" font-size: medium;"><?php echo $_SESSION['user_login'] ?>: </text>
+                            <a class="btn active" href="main.html">Личный кабинет</a>
+                            <a class="btn" href="course/courses.html">Задания</a>
+                            <a class="btn" href="index.html?session_quit=1" name = "logout_btn">Выйти</a>
+                        </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- ##### Header Area End ##### -->
+   
+    <h2 style="text-align: center; margin-top: 10px;margin-bottom: 10px">Личный кабинет работника деканата</h2>  
+    <h4 style="text-align:center">Выберите раздел, в котором хотите работать</h4>";
+    <!--<h3  style="text-align: center; margin-top: 10px;margin-bottom: 10px">Текущий балл: <?php echo $_SESSION['user_score']?></h3>  -->
+  
+    <!-- ##### Personal Data Start ##### -->
+    <section class="blog-area blog-page section-padding-100" style="padding-top: 50px;padding-bottom: 0px ">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Temporary Data -->
+                <div class="col-12 col-lg-6">
+                    <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="250ms">
+                        <!-- Blog Content -->
+                        <div class="blog-content align-items-center">
+                                <h4 style="text-align: center;">Управление группами</h4>
+                                <div class = "content">
+                                    <text class="table" >
+                                    <table class="table" style="text-align: center;">
+                                        <tr><td>Логин:</td> <td><?php echo $_SESSION['user_login']?></td></tr>
+                                        <!--<tr><td>Фамилия: </td> <td><?php echo $_SESSION['user_f_name']?></td></tr>
+                                        <tr><td>Имя:  </td> <td><?php echo $_SESSION['user_name']?></td></tr>
+                                        <tr><td>Отчество: </td> <td> <?php echo $_SESSION['user_m_name']?></td></tr>
+                                        <tr><td>Текущий балл: </td> <td><?php echo $_SESSION['user_score']?></td></tr> -->
+                                    </table>
+                                    </text>
+                                    <button class="orange_button to_groups" name="to_groups" id="to_groups" href="#data_block_header">Отобразить группы</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change password -->
+                <div class="col-12 col-lg-6">
+                    <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="250ms">
+                        <!-- Blog Content -->
+                        <div class="blog-content align-items-center">
+                            <h4 style="text-align: center">Управление кафедрами</h4>
+                            <div class="forms" style="align-items: center">
+                                <form id="change_pass_form" action="#" method="POST">
+                                    <table class="table">
+                                        <tr></tr>
+                                        <td>Текущий пароль:</td>
+                                        <td>
+                            <input type="password" class="form-control" name="curr_pass" size="32" maxlength="32" required>
+                            <p id="curr_pass_error" class="has-error" style="text-align: center;"></p>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td>Новый пароль:</td>
+                                <td><input type="password" class="form-control" name="new_pass" size="32" maxlength="32" required>
+                                    <p id="new_pass_error" class="has-error" style="text-align: center;"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Подтвердите новый пароль:</td>
+                                <td><input type="password" class="form-control" name="new_pass2" size="32" maxlength="32" required>
+                                    <p id="new_pass2_error" class="has-error" style="text-align: center;"></p>
+                                </td>
+                            </tr>
+                            </table>
+                            <hr>
+                            <p id="result"  style="text-align: center; color:green;"></p> </br>
+                            <!--<button class="orange_button" name="change_pass" id="change_pass" href="#">Подтвердить изменения</button>-->
+                            </form>
+                            <script type="text/javascript">
+                                $(document).on("click", "#change_pass", function (e) {
+                                    e.preventDefault();
+                                    //ajax form validation
+                                    $.ajax({
+                                        type: 'post',
+                                        url: 'change_pass_ver.php',
+                                        dataType: 'html',
+                                        data: $("#change_pass_form").serialize(),
+                                        success: function (html) {
+                                            var result = jQuery.parseJSON(html);
+                                            $("#curr_pass_error").text(result.curr_pass_error);
+                                            $("#new_pass_error").text(result.new_pass_error);
+                                            $("#new_pass2_error").text(result.new_pass2_error);
+                                            $("#result").text(result.response);
+                                            if (result.success) {
+                                                //document.location.href = "main.html";
+                                                $("#result").text(result.response);
+                                            } 
+                                        }
+                                    });
+                                });
+                            </script>
+                            <button class="orange_button to_departments" name="to_departments" id="to_departments" href="">Отобразить кафедры</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Personal Data End ##### -->
+
+    <!-- ##### Students' Data Start ##### -->
+    <h4 style="text-align:center;" id="data_block_header">Выбранные для отображения данные</h4> 
+    <div class="regular-page-area content-padding-40" style="margin-bottom: 5rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-content white-bg show-data-block" style="display: none;" id="show-data-blog" >
+                        <table class="table" id="group_table0">
+                            <div class="page-content white-bg show-data-block" style="display: none;" id="show-data-blog" >
+                                <table class="table" id="group_table0">
+                                </table>
+                            </div>
+                        </table>
+                    </div>
+                    <div class="page-content white-bg show-data-block2" style="display: none;" id="show-data-blog2" >
+                        <table class="table" id="departments_table0">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="regular-page-area content-padding-40" style="margin-bottom: 5rem;">
+        <div class="container">
+            <div class="row ">
+                <div class="col-12 ">
+                    <div class="page-content white-bg align-items-center"  >
+                        <table class="table" id="group_table">
+                            <div class="page-content white-bg show-students-block" style="display: none;" id="show-students-block" >
+                                <table class="table" id="students_table">
+                                </table>
+                            </div>
+                        </table>
+                        <button class="orange_button add_group" name="add_group" id="add_group" href="">Добавить новую группу</button>
+                        <div class="col-8 align-items-center" >
+                            <div class="page-content white-bg show-data-block3 align-items-center" style="display: none;">
+                                <div class="forms" style="align-items: center">
+                                     <form id="add_group_form" action="" method="POST">
+                                    <!--<table>-->
+                                        <table class="table">
+                                        <p style="text-align: center;">Пожалуйста, заполните данные ниже</p>
+                                        <tr>
+                                            <td><label>Название группы:</label></td>
+                                            <td><input type="text" class="form-control" name="group_name" size="10"
+                                                    maxlength="10" required>
+                                                <p id="group_name_error" class="has-error" style="text-align: center;"></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Направление:</label></td>
+                                            <td><select name="select_curr" class="" id="select_curr">
+                                                <option value="0" data-display="Выберите направление">Выбирите направление</option>
+                                                <option value="1">Промышленной информатики</option>
+                                                <option value="2">Вычислительной техники</option>
+                                                <option value="3">МОСИТ</option>
+                                                <option value="4">Физики</option>
+                                                <option value="5">Общей химической технологии</option>
+                                                <option value="6">Компьютерной и информационной безопасности</option>
+                                                </select>
+                                                <p id="select_curr_error" class="has-error" style="text-align: center;"></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Кафедра:</label></td>
+                                            <td>
+                                            <select name="select_depart" class="" id="select_depart">
+                                                <option value="0" data-display="Выберите кафедру">Выберите кафедру</option>
+                                                <option value="1">Промышленной информатики</option>
+                                                <option value="2">Вычислительной техники</option>
+                                                <option value="3">МОСИТ</option>
+                                                <option value="4">Физики</option>
+                                                <option value="5">Общей химической технологии</option>
+                                                <option value="6">Компьютерной и информационной безопасности</option>
+                                            </select>
+                                            <p id="select_depart_error" style="text-align: center;" class="has-error" ></p></td>
+                                        </tr>
+                                        </table>
+                                        <hr>
+                                    <button class="orange_button add_group_btn" id="add_group_btn" name="add_group_btn" href="">Добавить группу</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div> 
+    </div>
+    <div class="regular-page-area content-padding-40" style="margin-bottom: 5rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-content white-bg"  >
+                        <table class="table" id="department_table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Students' Data End ##### -->
+
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
+        <div class="top-footer-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Footer Logo -->
+                        <div class="footer-logo">
+                            <a href="index.html"><img src="img/core-img/logo2.png" alt=""></a>
+                        </div>
+                        <!-- Copywrite -->
+                        <p><a href="#">Copyright &copy;<script>document.write(new Date().getFullYear());</script> </a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ##### Footer Area End ##### -->
+
+</body>
+
+</html>

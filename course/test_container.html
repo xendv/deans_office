@@ -1,0 +1,110 @@
+<?php 
+    session_start();
+    if(!isset($_SESSION['user_login'])){
+        //header("Location: ../index-login.html");
+    }
+    
+    if (!isset($_GET["id"])){
+        //header("Location: ../index.html");
+    } else {
+        $test_id = $_GET["id"];
+    }
+    
+    if (isset($_GET["session_quit"])) { 
+        session_destroy();
+        unset($_GET["session_quit"]);
+        header("location: ../index.php");
+        exit();
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Trainer - Course section</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../img/core-img/favicon.ico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="test_styles.css">
+    <link rel="stylesheet" href="../css/my_style.css">
+
+</head>
+
+<body>
+    <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+        <div class="clever-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="cleverNav">
+                    <!-- Logo -->
+                    <a class="nav-brand" href="courses.html"><img src="../img/core-img/logo.png" alt=""></a>
+                        <!-- Register / Login -->
+                        <div class="register-login-area">
+                            <text class="btn"><?php echo $_SESSION['user_login'] ?>: </text>
+                            <a class="btn active" href="courses.html">Мои курсы</a>
+                            <a class="btn" href="../main.html">Личный кабинет</a>
+                            <a class="btn" href="../index.html?session_quit=1" name = "logout_btn">Выйти</a>
+                        </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- ##### Header Area End ##### -->
+    
+    <div class="test-list">
+        <?php 
+            include_once("test_functions.php");
+            form_test_page($test_id);
+        ?>
+    </div>
+    
+        <!-- ##### Footer Area Start ##### -->
+        <footer class="footer-area">
+            <div class="top-footer-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Footer Logo -->
+                            <div class="footer-logo">
+                                <a href="../index.html"><img src="../img/core-img/logo2.png" alt=""></a>
+                            </div>
+                            <!-- Copywrite -->
+                            <p><a href="#">
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;
+                                    <script>document.write(new Date().getFullYear());</script> </a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- ##### Footer Area End ##### -->
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="../js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="../js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="../js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="../js/active.js"></script>
+    <script type="text/javascript"> var test_id="<?php echo $test_id; ?>;"</script>
+    <script src="js.js"></script>
+</body>

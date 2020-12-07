@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Title -->
+    <title>Dean's Office| Вход</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/my_style.css">
+
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="js/jquery.js"></script>
+
+</head>
+
+<body>
+    <?php
+     session_start();
+
+    if (isset($_GET["session_quit"])) { 
+        session_destroy();
+        unset($_GET["session_quit"]);
+        header("Refresh:0; url=?");
+    } 
+
+    include"config.php"; 
+   ?>
+     <!--##### Header Area Start ##### -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+        <div class="clever-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="cleverNav">
+                    <!-- Logo -->
+                    <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                        <!-- Register / Login -->
+                        <div class="register-login-area">
+                        </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- ##### Header Area End ##### -->
+
+  <!-- ##### Blog Details Content ##### -->
+  <div class="blog-details-content section-padding-50">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <!-- Blog Details Text -->
+                <div class="blog-details-text">
+                    <h3 class="text-center py-4">Добро пожаловать!</h3>
+                    <p style="text-align: center;">Данная система предназначена для организации деятельности деканата по организации и контроля учебного процесса </p>
+                    <p style="text-align: center;">Для работы в системе работникам деканата необходимо войти в учетную запись</p>
+                    <div class="single-course-intro-content text-center">
+                        <div class="meta d-flex align-items-center justify-content-center">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="forms">
+                                            <h3>Войти</h3>
+                                            <form id="log_form" action="#" method="post">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="email" name="email" placeholder="Почта" size="32"
+                                                            maxlength="32" required>
+                                                        <p id="login_error" class="has-error"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <input type="password" class="form-control" id="passwd" name="passwd" placeholder="Пароль"
+                                                            size="32" maxlength="32" required>
+                                                        <p id="pass_error" class="has-error"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button class="btn clever-btn w-100" id="submit_btn">Войти</button>
+                                                </div>
+                                            </form>
+                                            <script type="text/javascript">
+                                                $(document).on("click","#submit_btn",function(e) {
+                                                            e.preventDefault();
+                                                            //ajax form validation
+                                                            $.ajax({
+                                                                type: 'post',
+                                                                url: 'log_ver.php',
+                                                                dataType: 'html',
+                                                                data:$("#log_form").serialize(),
+                                                                success: function (html) {
+                                                                    var result = jQuery.parseJSON(html);
+                                                                    if(result.success){
+                                                                        document.location.href = "main.html";
+                                                                    }else{
+                                                                        $("#login_error").text(result.login_error);
+                                                                        $("#pass_error").text(result.pass_error);
+                                                                    }
+                                                                }
+                                                            });
+                                                        });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+<!-- ##### Blog Details Content ##### -->
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
+        <div class="top-footer-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Footer Logo -->
+                        <div class="footer-logo">
+                            <a href="index.html"><img src="img/core-img/logo2.png" alt=""></a>
+                        </div>
+                        <!-- Copywrite -->
+                        <p><a href="#">
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> </a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <!-- ##### Footer Area End ##### -->
+
+
+</body>
+
+</html>
