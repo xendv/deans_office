@@ -43,10 +43,11 @@ include_once("functions.php");
                             </tr>
                             <tr>
                                 <td colspan="6" class="dropdown" id="{$data['id_group']}" style="display: none;">
-                                    <p>Опаньки</p>
+                                    <!--<p>ОП</p>-->
+                                    <div class="page-content white-bg students-block".{$data['id_group']}."  id="students-block".{$data['id_group']}.">
+                                    <p>Нанайна</p>
+                                    </div>
                                 </td>
-                                <div class="page-content white-bg show-students-block" style="display: none;" id="show-data-block">
-                                </div>
                             </tr>
                         EOF;
                         echo '</tbody>';
