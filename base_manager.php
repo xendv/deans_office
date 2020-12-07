@@ -44,8 +44,9 @@ include_once("functions.php");
                             <tr>
                                 <td colspan="6" class="dropdown" id="{$data['id_group']}" style="display: none;">
                                     <!--<p>ОП</p>-->
-                                    <div class="page-content white-bg students-block".{$data['id_group']}."  id="students-block".{$data['id_group']}.">
-                                    <p>Нанайна</p>
+                                    <div class="page-content white-bg students-block{$data['id_group']}"  id="students-block{$data['id_group']}">
+                                    <table class="table" id="students_table{$data['id_group']}">
+                                    </table>
                                     </div>
                                 </td>
                             </tr>
@@ -54,7 +55,7 @@ include_once("functions.php");
                     }
                     break;
                     case "get_students_by_group":
-                        //get_students_by_group($connection,$_POST['id_group']);
+                        get_students_by_group($connection,$_POST['id_group']);
                     break;
                     case "get_all_departments":
                         $sql = "SELECT * FROM `users` WHERE `group_id`=3";

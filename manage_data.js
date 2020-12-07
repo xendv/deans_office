@@ -14,8 +14,8 @@ function consoleRequest(request,object=null) {
 $(document).on ("click", ".gr.drop", function (e) {
     e.preventDefault();
     if ($(this).text() === "Показать"){
-        consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students_table"+this.id+".dropdown"));
-        //consoleRequest("request=get_students_by_group&id_group="+this.id,$("students_table"));
+        //consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students-table"+this.id+".dropdown"));
+        consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students_table"+this.id));
         
         
         $(this).text("Скрыть");
