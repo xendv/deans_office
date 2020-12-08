@@ -39,7 +39,7 @@ include_once("functions.php");
                                 <td>{$student_count}</td>
                                 <td><a href="#" class="" id="{$data['id_group']}">Изменить</a></td>
                                 <td><a href="#" class="drop gr" id="{$data['id_group']}">Показать</a></td>
-                                <td><button class="btn btn-outline-danger" style="margin: 0 auto" id="gr_{$data['id_group']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
+                                <td><button class="btn btn-outline-danger gr" style="margin: 0 auto" id="{$data['id_group']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
                             </tr>
                             <tr>
                                 <td colspan="6" class="dropdown" id="{$data['id_group']}" style="display: none;">
@@ -57,7 +57,14 @@ include_once("functions.php");
                     case "get_students_by_group":
                         get_students_by_group($connection,$_POST['id_group']);
                     break;
+                    case "get_student_group_by_id":
+                        $sql = "SELECT id_group FROM `students` WHERE id_student=".$_POST['id_student'];
+                        $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
+                        echo mysqli_error($connection);
+                        echo $res['id_group'];
+                    break;
                     case "get_all_departments":
+                        /*ЛОХ*/
                         $sql = "SELECT * FROM `users` WHERE `group_id`=3";
                         $query = mysqli_query($connection,$sql);
                         echo mysqli_error($connection);
@@ -86,6 +93,12 @@ include_once("functions.php");
                             echo '</tbody>';
                         }
                         break;
+                    case "delete_group_by_id":
+                        deleteGroupById($connection,$_POST['id_group']);
+                    break;
+                    case "delete_student_by_id":
+                        deleteStudentById($connection,$_POST['id_student']);
+                    break;
             default :
                 break;
             }
@@ -110,7 +123,7 @@ function get_students_by_group($connection,$id){
                 <td>{$data['av_ball']}</td>
                 <td><a href="#" class="" id="st_{$data['id_student']}">Изменить</a></td>
                 <td><a href="#" class="drop" id="st_{$data['id_student']}">Показать</a></td>
-                <td><button class="btn btn-outline-danger" style="margin: 0 auto" id="st_{$data['id_student']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
+                <td><button class="btn btn-outline-danger st" style="margin: 0 auto" id="{$data['id_student']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
             </tr>
 
         EOF;
@@ -125,10 +138,28 @@ function checkSelected($connection,$id){
     return mysqli_num_rows($query) == 0;
 }
 
+//ниту
 function addGroup($connection,$name,$id_cur,$id_dep){
     $query = mysqli_query($connection,"SELECT COURSE_ID FROM courses_selected WHERE USER_ID='{$_SESSION['user_id']}' AND COURSE_ID='$id'");
     echo mysqli_error($connection);
     return mysqli_num_rows($query) == 0;
+}
+
+function deleteGroupById($connection,$id){
+    $query = mysqli_query($connection,"DELETE FROM groups WHERE id_group='{$id}'");
+    echo mysqli_error($connection);
+    //while ($query = mysqli_query($connection,"DELETE FROM students WHERE id_group='{$id}'")){
+
+    //};
+    echo mysqli_error($connection);
+    return mysqli_num_rows($query) != 0;
+}
+
+function deleteStudentById($connection,$id){
+    $query = mysqli_query($connection,"DELETE FROM students WHERE id_student='{$id}'");
+    echo mysqli_error($connection);
+    $query = mysqli_query($connection,"DELETE FROM results WHERE id_student='{$id}'");
+    return mysqli_num_rows($query) != 0;
 }
 
 function formDataArray($row){

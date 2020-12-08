@@ -10,14 +10,24 @@ function consoleRequest(request,object=null) {
             }
     });
 };
+function dbDataRequest(request,success) {
+    //ajax request 
+    $.ajax({
+        type: 'post',
+        url: 'base_manager.php',
+        dataType: 'html',
+        data:request,
+            success: function (html) {
+                success(html);
+            }
+    });
+};
 
 $(document).on ("click", ".gr.drop", function (e) {
     e.preventDefault();
     if ($(this).text() === "Показать"){
         //consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students-table"+this.id+".dropdown"));
         consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students_table"+this.id));
-        
-        
         $(this).text("Скрыть");
     } else {
         $(this).text("Показать");
@@ -66,18 +76,43 @@ $(document).ready(function(e) {
         e.preventDefault();
             $('.show-groups-block').slideToggle(300);   
             consoleRequest("request=get_all_groups",$("#group_table"));
+            $('html, body').animate({
+                scrollTop: $("#data_block_header").offset().top
+            }, 500);
+            //document.location.href=document.getElementById('#data_block_header').value;
             return false;
     });
     $(document).on("click",".to_departments",function(e) {
         e.preventDefault();
         $('.show-deps-block').slideToggle(300); 
         consoleRequest("request=get_all_departments",$("#departments_table"));
+        $('html, body').animate({
+            scrollTop: $("#show-deps-block").offset().top
+        }, 500);
         return false;
         //consoleRequest("request=get_all_departments");
     });
     $(document).on("click","#add_group_btn",function(e) {
         e.preventDefault();
         validate($("#add_group_form"),"add_group_ver.php");
+    });
+    $(document).on("click",".gr.btn",function(e) {
+        e.preventDefault();
+        if (confirm('Удалить группу?')){
+            consoleRequest("request=delete_group_by_id&id_group="+this.id,null);
+            consoleRequest("request=get_all_groups",$("#group_table"));
+        }
+    });
+
+    $(document).on("click",".st.btn",function(e) {
+        e.preventDefault();
+        var id_st=this.id;
+        if (confirm('Удалить студента?')){
+            dbDataRequest("request=get_student_group_by_id&id_student="+id_st,function (group_id){
+                consoleRequest("request=delete_student_by_id&id_student="+id_st,null);
+                consoleRequest("request=get_students_by_group&id_group="+group_id,$("#students_table"+group_id));
+             });
+        }
     });
     //consoleRequest("request=get_all_groups",$("#group_table"));
     //consoleRequest("request=get_all_departments",$("#department_table"));
@@ -88,9 +123,13 @@ $(document).on("click",".add_group",function(e) {
     $('.show-add-group-block').slideToggle(300); 
     return false;
 });
+/*
+$(document).on("click","#add_group_btn",function(e) {
+    e.preventDefault();
+    validate($("#add_group_form"),"add_group_ver.php");
+});*/
 
 
-//
  /*                   
 $(document).ready(function(e) {
     consoleRequest("request=get_progs",updateProgs);
