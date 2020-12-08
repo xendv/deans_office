@@ -47,7 +47,7 @@ include_once("functions.php");
                                     <div class="page-content white-bg students-block{$data['id_group']}"  id="students-block{$data['id_group']}">
                                     <table class="table" id="students_table{$data['id_group']}">
                                     </table>
-                                    <button class="orange_button add_st_btn" id="add_st_btn{$_POST['id_group']}" name="add_st_btn" href="">Добавить студента</button>
+                                    <button class="orange_button add_st_btn" id="add_st_btn{$data['id_group']}" name="add_st_btn" href="">Добавить студента</button>
                                     </div>
                                 </td>
                             </tr>
