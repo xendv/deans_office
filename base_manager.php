@@ -47,7 +47,7 @@ include_once("functions.php");
                                     <div class="page-content white-bg students-block{$data['id_group']}"  id="students-block{$data['id_group']}">
                                         <table class="table" id="students_table{$data['id_group']}">
                                         </table>
-                                        <button class="orange_button add_st" id="{$data['id_group']}" name="add_st" href="">Добавить студента</button>
+                                        <button class="orange_button add_st btn" id="{$data['id_group']}" name="add_st" href="">Добавить студента</button>
                                         <div class="show-add-st-block{$data['id_group']} align-items-center" id="add_st_block{$data['id_group']}" style="margin: 10px;display: none;">
                                             <div class="forms" style="align-items: center">
                                                 <form id="{$data['id_group']}" class="add_st_form" action="" method="POST" novalidate>
@@ -74,7 +74,7 @@ include_once("functions.php");
                                                         </table>
                                                             <p id="new_st_error" class="has-error" style="text-align: center;"></p>
                                                         <hr>
-                                                    <button class="orange_button add_st_btn" id="{$data['id_group']}" name="add_st_btn" href="">Подтвердить</button>
+                                                    <button class="orange_button add_st_btn btn" id="{$data['id_group']}" name="add_st_btn" href="">Подтвердить</button>
                                                 </form>
                                             </div>
                                         </div>
