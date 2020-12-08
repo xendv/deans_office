@@ -45,9 +45,39 @@ include_once("functions.php");
                                 <td colspan="6" class="dropdown" id="{$data['id_group']}" style="display: none;">
                                     <!--<p>ОП</p>-->
                                     <div class="page-content white-bg students-block{$data['id_group']}"  id="students-block{$data['id_group']}">
-                                    <table class="table" id="students_table{$data['id_group']}">
-                                    </table>
-                                    <button class="orange_button add_st_btn" id="add_st_btn{$data['id_group']}" name="add_st_btn" href="">Добавить студента</button>
+                                        <table class="table" id="students_table{$data['id_group']}">
+                                        </table>
+                                        <button class="orange_button add_st" id="{$data['id_group']}" name="add_st" href="">Добавить студента</button>
+                                        <div class="show-add-st-block{$data['id_group']} align-items-center" id="add_st_block{$data['id_group']}" style="margin: 10px;display: none;">
+                                            <div class="forms" style="align-items: center">
+                                                <form id="{$data['id_group']}" class="add_st_form" action="" method="POST" novalidate>
+                                                        <table class="table">
+                                                        <p style="text-align: center;">Пожалуйста, заполните данные ниже, чтобы добавить студента в данную группу</p>
+                                                        <tr>
+                                                            <td><label>Фамилия</label></td>
+                                                            <td><input type="text" class="form-control" name="new_st_f_name" size="15"
+                                                                    maxlength="15" required>
+                                                                <p id="new_st_f_name_error" class="has-error" style="text-align: center;"></p>
+                                                            </td>
+                                                            <td><label>Имя</label></td>
+                                                            <td><input type="text" class="form-control" name="new_st_name" size="15"
+                                                                    maxlength="15" required>
+                                                                <p id="new_st_name_error" class="has-error" style="text-align: center;"></p>
+                                                            </td>
+                                                            <td><label>Отчество</label></td>
+                                                            <td><input type="text" class="form-control" name="new_st_m_name" size="15"
+                                                                    maxlength="15" required>
+                                                                <p id="new_st_m_name_error" class="has-error" style="text-align: center;"></p>
+                                                            </td>
+                                                        </tr>
+                                                        
+                                                        </table>
+                                                            <p id="new_st_error" class="has-error" style="text-align: center;"></p>
+                                                        <hr>
+                                                    <button class="orange_button add_st_btn" id="{$data['id_group']}" name="add_st_btn" href="">Подтвердить</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

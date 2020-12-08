@@ -36,16 +36,16 @@ $(document).on ("click", ".gr.drop", function (e) {
     $("#"+this.id+".dropdown").fadeToggle(200);
 });
 
-function validate(form,url){
+function validate(form,url,id_gr=""){
     //ajax form validation
     $.ajax({
         type: 'post',
         url: url,
         dataType: 'html',
-        data:form.serialize(),
+        data:form.serialize()+"&id_gr="+id_gr,
         success: formResult
     });
-}
+}//
 
 function formResult(html){
     var result = jQuery.parseJSON(html);
@@ -79,7 +79,6 @@ $(document).ready(function(e) {
             $('html, body').animate({
                 scrollTop: $("#data_block_header").offset().top
             }, 500);
-            //document.location.href=document.getElementById('#data_block_header').value;
             return false;
     });
     $(document).on("click",".to_departments",function(e) {
@@ -90,7 +89,6 @@ $(document).ready(function(e) {
             scrollTop: $("#show-deps-block").offset().top
         }, 500);
         return false;
-        //consoleRequest("request=get_all_departments");
     });
     $(document).on("click","#add_group_btn",function(e) {
         e.preventDefault();
@@ -115,6 +113,12 @@ $(document).ready(function(e) {
              });
         }
     });
+    $(document).on("click",".add_st_btn",function(e) {
+        e.preventDefault();
+        //alert("1223");
+        validate($("#"+this.id+".add_st_form"),"add_st_ver.php",this.id);
+        consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students_table"+this.id));
+    });
     //consoleRequest("request=get_all_groups",$("#group_table"));
     //consoleRequest("request=get_all_departments",$("#department_table"));
 });
@@ -128,6 +132,18 @@ $(document).on("click",".add_group",function(e) {
     });
     return false;
 });
+
+$(document).on("click",".add_st",function(e) {
+    e.preventDefault();
+    $('.show-add-st-block'+this.id).slideToggle(300); 
+    //consoleRequest("request=get_currs_for_options",$("#select_curr"));
+    //$("#select_curr").change(function () {
+    //    consoleRequest("request=get_deps_for_options&num="+this.value,$("#select_depart"));
+    //});
+    return false;
+});
+
+
 
  /*                   
 $(document).ready(function(e) {
