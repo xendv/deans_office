@@ -18,7 +18,7 @@
     if(empty($c_group_name)){
         $response['group_name_error'] = '* Поле не может быть пустым!';
         $response['success'] = false;
-    } elseif (!preg_match('/^[а-яА-Яa-zA-Z0-9-]+$/u',$c_group_name)){
+    } elseif (!preg_match('/^[а-яА-Я0-9-]+$/u',$c_group_name)){
         $response['group_name_error'] = '* Разрешены только русские буквы, тире и цифры!';
         $response['success'] = false;
     }

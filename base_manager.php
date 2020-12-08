@@ -53,17 +53,17 @@ include_once("functions.php");
                         EOF;
                         echo '</tbody>';
                     }
-                    break;
-                    case "get_students_by_group":
+                break;
+                case "get_students_by_group":
                         get_students_by_group($connection,$_POST['id_group']);
                     break;
-                    case "get_student_group_by_id":
+                case "get_student_group_by_id":
                         $sql = "SELECT id_group FROM `students` WHERE id_student=".$_POST['id_student'];
                         $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
                         echo mysqli_error($connection);
                         echo $res['id_group'];
                     break;
-                    case "get_all_departments":
+                case "get_all_departments":
                         /*ЛОХ*/
                         $sql = "SELECT * FROM `users` WHERE `group_id`=3";
                         $query = mysqli_query($connection,$sql);
@@ -92,11 +92,22 @@ include_once("functions.php");
                             EOF;
                             echo '</tbody>';
                         }
-                        break;
+                    break;
+                case "get_currs_for_options":
+                    $query=getUniqueCurrList($connection);
+                    echo <<<EOF
+                    <option value="0" data-display="Выберите направление">Выберите направление</option>";
+                    EOF;
+                    while ($row=mysqli_fetch_assoc($query)){
+                        echo <<<EOF
+                        <option value="{$row['id_curriculum']}">{$row['num']} {$row['name']}</option>
+                        EOF;
+                    }
+                break;
                     case "delete_group_by_id":
                         deleteGroupById($connection,$_POST['id_group']);
                     break;
-                    case "delete_student_by_id":
+                case "delete_student_by_id":
                         deleteStudentById($connection,$_POST['id_student']);
                     break;
             default :
@@ -162,6 +173,25 @@ function deleteStudentById($connection,$id){
     return mysqli_num_rows($query) != 0;
 }
 
+function getUniqueCurrList($connection){
+    $query = mysqli_query($connection,"SELECT * FROM curriculum GROUP BY num");
+    echo mysqli_error($connection);
+    return $query;
+}
+
+function getDepsListForCurByNum($connection,$num){
+    $sql="SELECT curriculum.id_curriculum, departments.name as name_department, departments.id as id_department FROM `departments`" 
+                        ." INNER JOIN curriculum ON curriculum.id_department=departments.id"
+                        ." WHERE curriculum.num=".$num;
+    $query = mysqli_query($connection,$sql);
+    $row=mysqli_fetch_assoc($query);
+    echo mysqli_error($connection);
+
+    return mysqli_fetch_assoc($query);
+}
+
+
+/*
 function formDataArray($row){
     //form data array
     $response = array();
@@ -184,4 +214,4 @@ function formDataArray($row){
     $response['edu_num'] = $row['edu_num'];
     $response['edu_year'] = $row['edu_year'];
     return $response;
-}
+}*/

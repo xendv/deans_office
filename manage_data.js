@@ -121,6 +121,7 @@ $(document).ready(function(e) {
 $(document).on("click",".add_group",function(e) {
     e.preventDefault();
     $('.show-add-group-block').slideToggle(300); 
+    consoleRequest("request=get_currs_for_options",$("#select_curr"));
     return false;
 });
 /*
