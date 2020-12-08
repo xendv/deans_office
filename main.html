@@ -57,7 +57,8 @@
     <!-- ##### Header Area End ##### -->
    
     <h2 style="text-align: center; margin-top: 10px;margin-bottom: 10px">Личный кабинет работника деканата</h2>  
-    <h4 style="text-align:center">Выберите раздел, в котором хотите работать</h4>";
+    <h4 style="text-align:center">Выберите, с чем хотите работать*</h4>
+    <p style="text-align: center; font-size: 20px;">*Данные будут отображены ниже</p>
     <!--<h3  style="text-align: center; margin-top: 10px;margin-bottom: 10px">Текущий балл: <?php echo $_SESSION['user_score']?></h3>  -->
   
     <!-- ##### Personal Data Start ##### -->
@@ -195,14 +196,15 @@
                                             <tr>
                                                 <td><label>Кафедра:</label></td>
                                                 <td>
-                                                <select name="select_depart" class="" id="select_depart">
-                                                    <option value="0" data-display="Выберите кафедру">Выберите кафедру</option>
+                                                <select name="select_depart" class="select_depart" id="select_depart">
+                                                    <!--<option value="0" data-display="Выберите кафедру">Выберите кафедру</option>
                                                     <option value="1">Промышленной информатики</option>
                                                     <option value="2">Вычислительной техники</option>
                                                     <option value="3">МОСИТ</option>
                                                     <option value="4">Физики</option>
                                                     <option value="5">Общей химической технологии</option>
                                                     <option value="6">Компьютерной и информационной безопасности</option>
+                                                    -->
                                                 </select>
                                                 <p id="select_depart_error" style="text-align: center;" class="has-error" ></p></td>
                                             </tr>

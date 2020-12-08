@@ -47,6 +47,7 @@ include_once("functions.php");
                                     <div class="page-content white-bg students-block{$data['id_group']}"  id="students-block{$data['id_group']}">
                                     <table class="table" id="students_table{$data['id_group']}">
                                     </table>
+                                    <button class="orange_button add_st_btn" id="add_st_btn{$_POST['id_group']}" name="add_st_btn" href="">Добавить студента</button>
                                     </div>
                                 </td>
                             </tr>
@@ -56,6 +57,7 @@ include_once("functions.php");
                 break;
                 case "get_students_by_group":
                         get_students_by_group($connection,$_POST['id_group']);
+
                     break;
                 case "get_student_group_by_id":
                         $sql = "SELECT id_group FROM `students` WHERE id_student=".$_POST['id_student'];
@@ -100,7 +102,18 @@ include_once("functions.php");
                     EOF;
                     while ($row=mysqli_fetch_assoc($query)){
                         echo <<<EOF
-                        <option value="{$row['id_curriculum']}">{$row['num']} {$row['name']}</option>
+                        <option value="{$row['num']}">{$row['num']} {$row['name']}</option>
+                        EOF;
+                    }
+                break;
+                case "get_deps_for_options":
+                    $query=getDepsListForCurByNum($connection,$_POST['num']);
+                    echo <<<EOF
+                    <option value="0" data-display="Выберите кафедру для прикрепления">Выберите кафедру для прикрепления</option>";
+                    EOF;
+                    while ($row=mysqli_fetch_assoc($query)){
+                        echo <<<EOF
+                        <option value="{$row['id_curriculum']}">{$row['name_department']}</option>
                         EOF;
                     }
                 break;
@@ -182,12 +195,10 @@ function getUniqueCurrList($connection){
 function getDepsListForCurByNum($connection,$num){
     $sql="SELECT curriculum.id_curriculum, departments.name as name_department, departments.id as id_department FROM `departments`" 
                         ." INNER JOIN curriculum ON curriculum.id_department=departments.id"
-                        ." WHERE curriculum.num=".$num;
+                        ." WHERE curriculum.num='".$num."'";
     $query = mysqli_query($connection,$sql);
-    $row=mysqli_fetch_assoc($query);
     echo mysqli_error($connection);
-
-    return mysqli_fetch_assoc($query);
+    return $query;
 }
 
 

@@ -95,6 +95,7 @@ $(document).ready(function(e) {
     $(document).on("click","#add_group_btn",function(e) {
         e.preventDefault();
         validate($("#add_group_form"),"add_group_ver.php");
+        consoleRequest("request=get_all_groups",$("#group_table"));
     });
     $(document).on("click",".gr.btn",function(e) {
         e.preventDefault();
@@ -122,14 +123,11 @@ $(document).on("click",".add_group",function(e) {
     e.preventDefault();
     $('.show-add-group-block').slideToggle(300); 
     consoleRequest("request=get_currs_for_options",$("#select_curr"));
+    $("#select_curr").change(function () {
+        consoleRequest("request=get_deps_for_options&num="+this.value,$("#select_depart"));
+    });
     return false;
 });
-/*
-$(document).on("click","#add_group_btn",function(e) {
-    e.preventDefault();
-    validate($("#add_group_form"),"add_group_ver.php");
-});*/
-
 
  /*                   
 $(document).ready(function(e) {
