@@ -152,6 +152,17 @@ if (isset($_SESSION['user'])){
                         EOF;
                     }
                 break;
+                case "get_dis_for_term":
+                    $query=getDisListForTerm($connection,$_POST['term'],$_POST['id_group']);
+                    echo <<<EOF
+                    <option value="0" data-display="Выберите предмет">Выберите предмет</option>";
+                    EOF;
+                    while ($row=mysqli_fetch_assoc($query)){
+                        echo <<<EOF
+                        <option value="{$row['id_discipline']}">{$row['name_discipline']}</option>
+                        EOF;
+                    }
+                break;
                     case "delete_group_by_id":
                         deleteGroupById($connection,$_POST['id_group']);
                     break;
@@ -201,8 +212,19 @@ function get_students_by_group($connection,$id){
                                         <td><label>Семестр</label></td>
                                         <td>
                                             <select name="select_term" class="select_term" id="{$data['id_student']}">
+                                                <option value="0" data-display="Семестр">Выберите семестр</option>";
+                                                <option value="1" data-display="1">1</option>";
+                                                <option value="2" data-display="2">2</option>";
+                                                <option value="3" data-display="3">3</option>";
+                                                <option value="4" data-display="4">4</option>";
+                                                <option value="5" data-display="5">5</option>";
+                                                <option value="6" data-display="6">6</option>";
+                                                <option value="7" data-display="7">7</option>";
+                                                <option value="8" data-display="8">8</option>";
+                                                <option value="9" data-display="9">9</option>";
+                                                <option value="10" data-display="10">10</option>";
                                             </select>
-                                            <p id="term_error" class="has-error" style="text-align: center;"></p>
+                                            <p id="select_term_error" class="has-error" style="text-align: center;"></p>
                                         </td>
                                         <td><label>Предмет:</label></td>
                                         <td><select name="select_discipline" class="select_discipline" id="{$data['id_student']}">
@@ -211,20 +233,26 @@ function get_students_by_group($connection,$id){
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><label>Тип аттестации:</label></td>
+                                        <!--<td><label>Тип аттестации:</label></td>
                                         <td>
                                             <select name="select_type" class="select_type" id="{$data['id_student']}">
                                             </select>
-                                            <p id="select_depart_error" style="text-align: center;" class="has-error" ></p></td>
+                                            <p id="select_type_error" style="text-align: center;" class="has-error" ></p></td>
+                                            -->
                                         <td><label>Оценка:</label></td>
                                         <td>
                                             <select name="select_mark" class="select_mark" id="{$data['id_student']}">
+                                                <option value="0" data-display="Оценка">Выберите оценку</option>";
+                                                <option value="2" data-display="2">2</option>";
+                                                <option value="3" data-display="3">3</option>";
+                                                <option value="4" data-display="4">4</option>";
+                                                <option value="5" data-display="5">5</option>";
                                             </select>
                                             <p id="select_mark_error" style="text-align: center;" class="has-error"></p>
                                         </td>
                                     </tr>
                                 </table>
-                                <button class="orange_button add_res_btn btn" id="{$data['id_student']}" name="add_res_btn" href="">Подтвердить</button>
+                                <button class="orange_button small add_res_btn btn" id="{$data['id_student']}" name="add_res_btn" href="">Подтвердить</button>
                             </form>
                         </div>
                     </div>
@@ -363,6 +391,15 @@ function getDepsListForCurByNum($connection,$num){
     $sql="SELECT curriculum.id_curriculum, departments.name as name_department, departments.id as id_department FROM `departments`" 
                         ." INNER JOIN curriculum ON curriculum.id_department=departments.id"
                         ." WHERE curriculum.num='".$num."'";
+    $query = mysqli_query($connection,$sql);
+    echo mysqli_error($connection);
+    return $query;
+}
+
+function getDisListForTerm($connection,$term,$id_group){
+    $sql="SELECT groups.id_curriculum, disciplines.name_discipline, disciplines.id_discipline, "
+    ."disciplines.type_att FROM `disciplines` INNER JOIN groups ON disciplines.id_curriculum=groups.id_curriculum "
+    ."WHERE groups.id_group=".$id_group." AND disciplines.id_term=".$term;
     $query = mysqli_query($connection,$sql);
     echo mysqli_error($connection);
     return $query;
