@@ -36,6 +36,19 @@ $(document).on ("click", ".gr.drop", function (e) {
     $("#"+this.id+".dropdown").fadeToggle(200);
 });
 
+$(document).on ("click", ".st.drop", function (e) {
+    e.preventDefault();
+    if ($(this).text() === "Показать"){
+        consoleRequest("request=get_students_results&id_student="+this.id,$("#results_table"+this.id));
+        //consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students_table"+this.id));
+        $(this).text("Скрыть");
+    } else {
+        $(this).text("Показать");
+    }
+    //$("#"+this.id+".dropdown").slideToggle(200);
+    $("#"+this.id+".st.dropdown").fadeToggle(200);
+});
+
 function validate(form,url,id_gr=""){
     //ajax form validation
     $.ajax({

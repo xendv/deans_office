@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once("functions.php");
-//if (isset($_SESSION['user'])){
+if (isset($_SESSION['user'])){
         if(isset($_POST['request'])){
             // Setup database
             $connection = link_to_db("deansoff_db");
@@ -86,15 +86,14 @@ include_once("functions.php");
                     }
                 break;
                 case "get_students_by_group":
-                        get_students_by_group($connection,$_POST['id_group']);
-
-                    break;
+                    get_students_by_group($connection,$_POST['id_group']);
+                break;
+                case "get_students_results":
+                    get_students_results($connection,$_POST['id_student']);
+                break;
                 case "get_student_group_by_id":
-                        $sql = "SELECT id_group FROM `students` WHERE id_student=".$_POST['id_student'];
-                        $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
-                        echo mysqli_error($connection);
-                        echo $res['id_group'];
-                    break;
+                    get_student_group_by_id($connection,$_POST['id_student']);
+                break;
                 case "get_all_departments":
                         /*ЛОХ*/
                         $sql = "SELECT * FROM `users` WHERE `group_id`=3";
@@ -157,7 +156,7 @@ include_once("functions.php");
                 break;
             }
     }
-//}
+}
 
 function get_students_by_group($connection,$id){
     $sql = "SELECT * FROM `students` WHERE `id_group`=".$id."";
@@ -176,8 +175,15 @@ function get_students_by_group($connection,$id){
                 <td>{$data['full_name']}</td>
                 <td>{$data['av_ball']}</td>
                 <td><a href="#" class="" id="st_{$data['id_student']}">Изменить</a></td>
-                <td><a href="#" class="drop" id="st_{$data['id_student']}">Показать</a></td>
+                <td><a href="#" class="drop st" id="{$data['id_student']}">Показать</a></td>
                 <td><button class="btn btn-outline-danger st" style="margin: 0 auto" id="{$data['id_student']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="dropdown st" id="{$data['id_student']}" style="display: none;">
+                    <table class="table" id="results_table{$data['id_student']}">
+                    </table>
+                    <button class="orange_button add_res btn" id="{$data['id_student']}" name="add_res" href="">Добавить оценку</button>
+                </td>
             </tr>
 
         EOF;
@@ -185,19 +191,58 @@ function get_students_by_group($connection,$id){
     }
 }
 
+function get_student_group_by_id($connection,$id_student){
+    $sql = "SELECT id_group FROM `students` WHERE id_student=".$id_student;
+    $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
+    echo mysqli_error($connection);
+    echo $res['id_group'];
+}
 
+function get_students_results($connection,$id_student){
+    $id_group=get_student_group_by_id($connection,$id_student);
+    //$sql = "SELECT * FROM `results` WHERE `id_student`=".$id_student."";
+    $sql = "SELECT results.id_result, results.id_student, results.id_discipline, results.mark, "
+    ."disciplines.name_discipline, disciplines.id_curriculum,  disciplines.id_term, disciplines.type_att  FROM `results` "
+    ."INNER JOIN disciplines ON disciplines.id_discipline=results.id_discipline "
+    ."WHERE results.id_student=".$id_student." ORDER BY disciplines.id_term";
+    $query = mysqli_query($connection,$sql);
+    echo mysqli_error($connection);
+    echo <<<EOF
+        <thead>
+        <tr> <th>   </th> <th>Семестр</th> <th>Предмет</th> <th>Тип аттестации</th> <th>Оценка</th> <th></th></tr>
+        </thead>
+    EOF;
+    while($data = mysqli_fetch_assoc($query)){
+        echo mysqli_error($connection);
+        echo <<<EOF
+            <tbody>
+            <tr>
+                <td>    </td>
+                <td>{$data['id_term']}</td>
+                <td>{$data['name_discipline']}</td>
+                <td>{$data['type_att']}</td>
+                <td>{$data['mark']}</td>
+                <td><a href="#" class="res" id="res{$data['id_result']}">Изменить</a></td>
+                <td><a href="#" class="drop st" id="{$data['id_result']}">Показать</a></td>
+                <td><button class="btn btn-outline-danger res" style="margin: 0 auto" id="{$data['id_result']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
+            </tr>
+        EOF;
+        echo '</tbody>';
+    }
+}
+
+/*
 function checkSelected($connection,$id){
     $query = mysqli_query($connection,"SELECT COURSE_ID FROM courses_selected WHERE USER_ID='{$_SESSION['user_id']}' AND COURSE_ID='$id'");
     echo mysqli_error($connection);
     return mysqli_num_rows($query) == 0;
 }
 
-//ниту
 function addGroup($connection,$name,$id_cur,$id_dep){
     $query = mysqli_query($connection,"SELECT COURSE_ID FROM courses_selected WHERE USER_ID='{$_SESSION['user_id']}' AND COURSE_ID='$id'");
     echo mysqli_error($connection);
     return mysqli_num_rows($query) == 0;
-}
+}*/
 
 function deleteGroupById($connection,$id){
     $query = mysqli_query($connection,"DELETE FROM groups WHERE id_group='{$id}'");
