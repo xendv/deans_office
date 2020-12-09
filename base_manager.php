@@ -199,7 +199,8 @@ function get_students_by_group($connection,$id){
             <tr>
                 <td>{$data['full_name']}</td>
                 <td class="td_av{$data['id_student']}" id="{$data['id_student']}">{$data['av_ball']}</td>
-                <td><a href="#" class="" id="st_{$data['id_student']}">Изменить</a></td>
+                <td></td>
+                <!--<td><a href="#" class="" id="st_{$data['id_student']}">Изменить</a></td>-->
                 <td><a href="#" class="drop st" id="{$data['id_student']}">Показать</a></td>
                 <td><button class="btn btn-outline-danger st" style="margin: 0 auto" id="{$data['id_student']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
             </tr>
