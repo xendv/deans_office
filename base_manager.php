@@ -192,6 +192,42 @@ function get_students_by_group($connection,$id){
                     <table class="table" id="results_table{$data['id_student']}">
                     </table>
                     <button class="orange_button add_res small btn" id="{$data['id_student']}" name="add_res" href="">Добавить оценку</button>
+                    <div class="show-add-res-block{$data['id_student']} align-items-center" id="add_res_block{$data['id_student']}" style="margin: 10px;display: none;">
+                        <div class="forms" style="align-items: center">
+                            <form id="{$data['id_student']}" class="add_res_form" action="" method="POST">
+                                <table class="table">
+                                    <p style="text-align: center;">Пожалуйста, заполните данные ниже, чтобы добавить оценку</p>
+                                    <tr>
+                                        <td><label>Семестр</label></td>
+                                        <td>
+                                            <select name="select_term" class="select_term" id="{$data['id_student']}">
+                                            </select>
+                                            <p id="term_error" class="has-error" style="text-align: center;"></p>
+                                        </td>
+                                        <td><label>Предмет:</label></td>
+                                        <td><select name="select_discipline" class="select_discipline" id="{$data['id_student']}">
+                                            </select>
+                                            <p id="select_discipline_error" class="has-error" style="text-align: center;"></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Тип аттестации:</label></td>
+                                        <td>
+                                            <select name="select_type" class="select_type" id="{$data['id_student']}">
+                                            </select>
+                                            <p id="select_depart_error" style="text-align: center;" class="has-error" ></p></td>
+                                        <td><label>Оценка:</label></td>
+                                        <td>
+                                            <select name="select_mark" class="select_mark" id="{$data['id_student']}">
+                                            </select>
+                                            <p id="select_mark_error" style="text-align: center;" class="has-error"></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <button class="orange_button add_res_btn btn" id="{$data['id_student']}" name="add_res_btn" href="">Подтвердить</button>
+                            </form>
+                        </div>
+                    </div>
                 </td>
             </tr>
 
@@ -302,7 +338,7 @@ function updateAvBall($connection,$id_student){
 
 
 function deleteResultById($connection,$id){
-    //update av_ball
+
     /*$sql = "SELECT mark FROM `results` WHERE id_result=".$id;
     $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
     echo mysqli_error($connection);

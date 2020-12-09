@@ -169,6 +169,15 @@ $(document).on("click",".add_st",function(e) {
     return false;
 });
 
+$(document).on("click",".add_res",function(e) {
+    e.preventDefault();
+    $('.show-add-res-block'+this.id).slideToggle(300); 
+    //consoleRequest("request=get_currs_for_options",$("#select_curr"));
+    //$("#select_curr").change(function () {
+    //    consoleRequest("request=get_deps_for_options&num="+this.value,$("#select_depart"));
+    //});
+    return false;
+});
 
  /*                   
 $(document).ready(function(e) {
