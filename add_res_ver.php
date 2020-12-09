@@ -8,13 +8,13 @@
 
     $response['select_term_error'] = "";
     $response['select_discipline_error'] = "";
-    $response['select_type_error'] = "";
     $response['select_mark_error'] = "";
 
     //Фильтруем (убираем лишние пробелы)
-    $new_st_f_name = filtered_input($_POST['new_st_f_name']);
-    $new_st_name = filtered_input($_POST['new_st_name']);
-    $new_st_m_name = filtered_input($_POST['new_st_m_name']);
+    $selected_term = filtered_input($_POST['select_term']);
+    $selected_discipline = filtered_input($_POST['select_discipline']);
+    $selected_mark = filtered_input($_POST['select_mark']);
+    $id_student=$_POST['id_gr'];
 
     //Подключаемся к БД
     include_once ("config.php");
@@ -22,40 +22,30 @@
     echo mysqli_error($link);
 
     //Проверка данных
-    if(empty($new_st_f_name)){
-            $response['new_st_f_name_error'] = '* Поле не может быть пустым!';
+    if(empty($selected_term)){
+            $response['select_term_error'] = '* Заполните поле!';
             $response['success'] = false;
-    } elseif (!preg_match('/^[а-яА-Я]+$/u',$new_st_f_name)){
-            $response['new_st_f_name_error'] = '* Разрешены только русские буквы!';
-            $response['success'] = false;
-    }
-    if(empty($new_st_name)){
-        $response['new_st_name_error'] = '* Поле не может быть пустым!';
+    } 
+    if(empty($selected_discipline)){
+        $response['select_discipline_error'] = '* Заполните поле!';
         $response['success'] = false;
-    } elseif (!preg_match('/^[а-яА-Я]+$/u',$new_st_name)){
-            $response['new_st_name_error'] = '* Разрешены только русские буквы!';
-            $response['success'] = false;
-    }
-    if(empty($new_st_m_name)){
-        $response['new_st_m_name_error'] = '* Поле не может быть пустым!';
+    } 
+    if(empty($selected_mark)){
+        $response['select_mark_error'] = '* Заполните поле!';
         $response['success'] = false;
-    } elseif (!preg_match('/^[а-яА-Я]+$/u',$new_st_m_name)){
-        $response['new_st_m_name_error'] = '* Разрешены только русские буквы!';
-        $response['success'] = false;
-    }
+    } 
     /*Проверяем существует ли у нас
-    такой пользователь в БД*/
-    $new_st_full_name=$new_st_f_name." ".$new_st_name." ".$new_st_m_name;
+    такой пользователь в БД
     $sql = "SELECT `full_name` FROM `students` WHERE `full_name` = '". $new_st_full_name."'";
     $res =  mysqli_query($link, $sql);
     if(mysqli_num_rows($res)>0){
         $response['new_st_error'] = '* Студент: '. $new_st_full_name .' уже есть в группе!';
         $response['success'] = false;
-    }
+    }*/
     //Проверяем наличие ошибок
     if($response['success']){
-        $sql = "INSERT INTO `students` (`full_name`, `id_group`) VALUES ".
-                    "('".$new_st_full_name."','".$_POST['id_gr']."')";  
+        $sql = "INSERT INTO `results` (`id_student`, `id_discipline`, `mark`) VALUES ".
+                    "('".$id_student."','".$selected_discipline."','".$selected_mark."')";  
         echo mysqli_error($link);
         $res=mysqli_query($link,$sql);
         echo mysqli_error($link);

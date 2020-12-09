@@ -85,6 +85,7 @@ function updateGroups(html){
 }
 
 $(document).ready(function(e) {
+    //открыть/закрыть блок с группами
     $(document).on("click",".to_groups",function(e) {
         e.preventDefault();
             $('.show-groups-block').slideToggle(300);   
@@ -94,6 +95,7 @@ $(document).ready(function(e) {
             }, 500);
             return false;
     });
+    //открыть/закрыть блок с кафедрами 
     $(document).on("click",".to_departments",function(e) {
         e.preventDefault();
         $('.show-deps-block').slideToggle(300); 
@@ -103,11 +105,13 @@ $(document).ready(function(e) {
         }, 500);
         return false;
     });
+    //добавить группу из формы и обновить таблицы
     $(document).on("click","#add_group_btn",function(e) {
         e.preventDefault();
         validate($("#add_group_form"),"add_group_ver.php");
         consoleRequest("request=get_all_groups",$("#group_table"));
     });
+    //удалить группу и обновить таблицы
     $(document).on("click",".gr.btn",function(e) {
         e.preventDefault();
         if (confirm('Удалить группу?')){
@@ -115,7 +119,7 @@ $(document).ready(function(e) {
             consoleRequest("request=get_all_groups",$("#group_table"));
         }
     });
-
+    //удалить студента и обновить таблицы
     $(document).on("click",".st.btn",function(e) {
         e.preventDefault();
         var id_st=this.id;
@@ -126,12 +130,14 @@ $(document).ready(function(e) {
              });
         }
     });
+    //добавить студента из формы
     $(document).on("click",".add_st_btn",function(e) {
         e.preventDefault();
         //alert("1223");
         validate($("#"+this.id+".add_st_form"),"add_st_ver.php",this.id);
         consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students_table"+this.id));
     });
+    //удалить оценку, обновить таблицу оценок и средний балл
     $(document).on("click",".res.btn",function(e) {
         e.preventDefault();
         var id_res=this.id;
@@ -145,10 +151,19 @@ $(document).ready(function(e) {
              });
         }
     });
+    //добавить оценку из формы, обновить таблицу оценок и средний балл
+    $(document).on("click",".add_res_btn",function(e) {
+        e.preventDefault();
+        //alert("1223");
+        validate($("#"+this.id+".add_res_form"),"add_res_ver.php",this.id);
+        consoleRequest("request=update_av_ball&id_student="+this.id,$(".td_av"+this.id));
+        consoleRequest("request=get_students_results&id_student="+this.id,$("#results_table"+this.id));
+    });
     //consoleRequest("request=get_all_groups",$("#group_table"));
     //consoleRequest("request=get_all_departments",$("#department_table"));
 });
 
+//показать форму добавления группы
 $(document).on("click",".add_group",function(e) {
     e.preventDefault();
     $('.show-add-group-block').slideToggle(300); 
@@ -158,7 +173,7 @@ $(document).on("click",".add_group",function(e) {
     });
     return false;
 });
-
+//показать форму добавления студента
 $(document).on("click",".add_st",function(e) {
     e.preventDefault();
     $('.show-add-st-block'+this.id).slideToggle(300); 
