@@ -98,7 +98,7 @@ if (isset($_SESSION['user'])){
                     echo get_student_id_by_result ($connection,$_POST['id_result']);
                 break;
                 case "update_av_ball":
-                    updateAvBall($connection,$_POST['id_student']);
+                    echo updateAvBall($connection,$_POST['id_student']);
                 break;
                 case "get_all_departments":
                         /*ЛОХ*/
@@ -182,7 +182,7 @@ function get_students_by_group($connection,$id){
             <tbody>
             <tr>
                 <td>{$data['full_name']}</td>
-                <td class="td_mark" id="{$data['id_student']}">{$data['av_ball']}</td>
+                <td class="td_av{$data['id_student']}" id="{$data['id_student']}">{$data['av_ball']}</td>
                 <td><a href="#" class="" id="st_{$data['id_student']}">Изменить</a></td>
                 <td><a href="#" class="drop st" id="{$data['id_student']}">Показать</a></td>
                 <td><button class="btn btn-outline-danger st" style="margin: 0 auto" id="{$data['id_student']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
@@ -296,7 +296,10 @@ function updateAvBall($connection,$id_student){
     $sql ="UPDATE `students` SET `av_ball`='".$av_ball."' WHERE `id_student`=".$id_student."";
     $res =  mysqli_query($connection, $sql);
     echo mysqli_error($connection);
+    return $av_ball;
 }
+
+
 
 function deleteResultById($connection,$id){
     //update av_ball
@@ -311,6 +314,8 @@ function deleteResultById($connection,$id){
     //$query = mysqli_query($connection,"DELETE FROM results WHERE id_student='{$id}'");
     return mysqli_error($connection);//mysqli_num_rows($query) != 0;
 }
+
+
 
 function getUniqueCurrList($connection){
     $query = mysqli_query($connection,"SELECT * FROM curriculum GROUP BY num");

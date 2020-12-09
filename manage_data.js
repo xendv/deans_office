@@ -139,11 +139,9 @@ $(document).ready(function(e) {
             dbDataRequest("request=get_student_id_by_result&id_result="+id_res,function (id_student){
                 consoleRequest("request=delete_result&id_result="+id_res,null);
                 //обновить av_ball
-                //вывести список студентов
-                consoleRequest("request=update_av_ball&id_student="+id_student,null);
+                //вывести список оценок
+                consoleRequest("request=update_av_ball&id_student="+id_student,$(".td_av"+id_student));
                 consoleRequest("request=get_students_results&id_student="+id_student,$("#results_table"+id_student));
-                //consoleRequest("request=get_students_by_group&id_group="+group_id,$("#students_table"+group_id));
-                
              });
         }
     });
