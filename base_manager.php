@@ -36,7 +36,7 @@ if (isset($_SESSION['user'])){
                                 <td>{$data['name']}</td>
                                 <td>{$row['num']} {$row['name']}</td>
                                 <td>{$row['name1']}</td>
-                                <td>{$student_count}</td>
+                                <td class="td_k{$data['id_group']}">{$student_count}</td>
                                 <td><a href="#" class="drop gr" id="{$data['id_group']}">Показать</a></td>
                                 <td><button class="btn btn-outline-danger gr" style="margin: 0 auto" id="{$data['id_group']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
                             </tr>
@@ -98,6 +98,9 @@ if (isset($_SESSION['user'])){
                 break;
                 case "update_av_ball":
                     echo updateAvBall($connection,$_POST['id_student']);
+                break;
+                case "update_k":
+                    echo updateCountStudents($connection,$_POST['id_group']);
                 break;
                 case "get_all_departments":
                         /*ЛОХ*/
@@ -363,7 +366,12 @@ function updateAvBall($connection,$id_student){
     return $av_ball;
 }
 
-
+function updateCountStudents($connection,$id_group){
+    $sql="SELECT COUNT(*) as count FROM `students` WHERE `id_group`=".$id_group;
+    $query_s = mysqli_query($connection,$sql);
+    $student_count=mysqli_fetch_assoc($query_s)['count'];
+    return $student_count;
+}
 
 function deleteResultById($connection,$id){
 

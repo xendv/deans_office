@@ -126,6 +126,7 @@ $(document).ready(function(e) {
         if (confirm('Удалить студента?')){
             dbDataRequest("request=get_student_group_by_id&id_student="+id_st,function (group_id){
                 consoleRequest("request=delete_student_by_id&id_student="+id_st,null);
+                consoleRequest("request=update_k&id_group="+group_id,$(".td_k"+group_id));
                 consoleRequest("request=get_students_by_group&id_group="+group_id,$("#students_table"+group_id));
              });
         }
@@ -135,6 +136,8 @@ $(document).ready(function(e) {
         e.preventDefault();
         //alert("1223");
         validate($("#"+this.id+".add_st_form"),"add_st_ver.php",this.id);
+        //td_k{$data['id_group']}
+        consoleRequest("request=update_k&id_group="+this.id,$(".td_k"+this.id));
         consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students_table"+this.id));
     });
     //удалить оценку, обновить таблицу оценок и средний балл
