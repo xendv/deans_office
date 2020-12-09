@@ -15,7 +15,7 @@ if (isset($_SESSION['user'])){
                     $query = mysqli_query($connection,$sql);
                     echo <<<EOF
                         <thead>
-                            <tr><th>Группа</th> <th>Направление</th> <th>Кафедра</th> <th>Число студентов</th> <th>-</th> <th>Студенты группы</th><th></th></tr>
+                            <tr><th>Группа</th> <th>Направление</th> <th>Кафедра</th> <th>Число студентов</th>  <th>Студенты группы</th><th></th></tr>
                         </thead>
                     EOF;
                     while($data = mysqli_fetch_assoc($query)){
@@ -37,7 +37,6 @@ if (isset($_SESSION['user'])){
                                 <td>{$row['num']} {$row['name']}</td>
                                 <td>{$row['name1']}</td>
                                 <td>{$student_count}</td>
-                                <td><a href="#" class="" id="{$data['id_group']}">Изменить</a></td>
                                 <td><a href="#" class="drop gr" id="{$data['id_group']}">Показать</a></td>
                                 <td><button class="btn btn-outline-danger gr" style="margin: 0 auto" id="{$data['id_group']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
                             </tr>
@@ -224,12 +223,12 @@ function get_students_by_group($connection,$id){
                                                 <option value="9" data-display="9">9</option>";
                                                 <option value="10" data-display="10">10</option>";
                                             </select>
-                                            <p id="select_term_error" class="has-error" style="text-align: center;"></p>
+                                            <p id="select_term_error{$data['id_student']}" class="has-error" style="text-align: center;"></p>
                                         </td>
                                         <td><label>Предмет:</label></td>
                                         <td><select name="select_discipline" class="select_discipline" id="{$data['id_student']}">
                                             </select>
-                                            <p id="select_discipline_error" class="has-error" style="text-align: center;"></p>
+                                            <p id="select_discipline_error{$data['id_student']}" class="has-error" style="text-align: center;"></p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -237,7 +236,7 @@ function get_students_by_group($connection,$id){
                                         <td>
                                             <select name="select_type" class="select_type" id="{$data['id_student']}">
                                             </select>
-                                            <p id="select_type_error" style="text-align: center;" class="has-error" ></p></td>
+                                            <p id="select_type_error{$data['id_student']}" style="text-align: center;" class="has-error" ></p></td>
                                             -->
                                         <td><label>Оценка:</label></td>
                                         <td>
@@ -248,10 +247,11 @@ function get_students_by_group($connection,$id){
                                                 <option value="4" data-display="4">4</option>";
                                                 <option value="5" data-display="5">5</option>";
                                             </select>
-                                            <p id="select_mark_error" style="text-align: center;" class="has-error"></p>
+                                            <p id="select_mark_error}" style="text-align: center;" class="has-error"></p>
                                         </td>
                                     </tr>
                                 </table>
+                                <p id="existence_check_error{$data['id_student']}" style="text-align: center;" class="has-error"></p>
                                 <button class="orange_button small add_res_btn btn" id="{$data['id_student']}" name="add_res_btn" href="">Подтвердить</button>
                             </form>
                         </div>

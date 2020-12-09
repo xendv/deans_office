@@ -9,6 +9,7 @@
     $response['select_term_error'] = "";
     $response['select_discipline_error'] = "";
     $response['select_mark_error'] = "";
+    $response['existence_check_error'.$id_student]="";
 
     //Фильтруем (убираем лишние пробелы)
     $selected_term = filtered_input($_POST['select_term']);
@@ -23,25 +24,25 @@
 
     //Проверка данных
     if(empty($selected_term)){
-            $response['select_term_error'] = '* Заполните поле!';
+            $response['select_term_error'.$id_student] = '* Заполните поле!';
             $response['success'] = false;
     } 
     if(empty($selected_discipline)){
-        $response['select_discipline_error'] = '* Заполните поле!';
+        $response['select_discipline_error'.$id_student] = '* Заполните поле!';
         $response['success'] = false;
     } 
     if(empty($selected_mark)){
-        $response['select_mark_error'] = '* Заполните поле!';
+        $response['select_mark_error'.$id_student] = '* Заполните поле!';
         $response['success'] = false;
     } 
     /*Проверяем существует ли у нас
-    такой пользователь в БД
-    $sql = "SELECT `full_name` FROM `students` WHERE `full_name` = '". $new_st_full_name."'";
+    результат по этому предмету в БД*/
+    $sql = "SELECT * FROM `results` WHERE `id_student` = '". $id_student."' AND `id_discipline`=".$selected_discipline;
     $res =  mysqli_query($link, $sql);
     if(mysqli_num_rows($res)>0){
-        $response['new_st_error'] = '* Студент: '. $new_st_full_name .' уже есть в группе!';
+        $response['existence_check_error'.$id_student] = '* У студента уже есть результат по этому предмету! Если необходимо, модифицируйте оценку в таблице';
         $response['success'] = false;
-    }*/
+    }
     //Проверяем наличие ошибок
     if($response['success']){
         $sql = "INSERT INTO `results` (`id_student`, `id_discipline`, `mark`) VALUES ".
