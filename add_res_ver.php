@@ -9,13 +9,14 @@
     $response['select_term_error'] = "";
     $response['select_discipline_error'] = "";
     $response['select_mark_error'] = "";
-    $response['existence_check_error'.$id_student]="";
 
     //Фильтруем (убираем лишние пробелы)
     $selected_term = filtered_input($_POST['select_term']);
     $selected_discipline = filtered_input($_POST['select_discipline']);
     $selected_mark = filtered_input($_POST['select_mark']);
     $id_student=$_POST['id_gr'];
+
+    $response['existence_check_error'.$id_student]="";
 
     //Подключаемся к БД
     include_once ("config.php");
