@@ -41,7 +41,7 @@
     $sql = "SELECT * FROM `results` WHERE `id_student` = '". $id_student."' AND `id_discipline`=".$selected_discipline;
     $res =  mysqli_query($link, $sql);
     if(mysqli_num_rows($res)>0){
-        $response['existence_check_error'.$id_student] = '* У студента уже есть результат по этому предмету! Если необходимо, модифицируйте оценку в таблице';
+        $response['existence_check_error'.$id_student] = '* У студента уже есть оценка';
         $response['success'] = false;
     }
     //Проверяем наличие ошибок

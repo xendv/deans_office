@@ -102,6 +102,9 @@ if (isset($_SESSION['user'])){
                 case "update_k":
                     echo updateCountStudents($connection,$_POST['id_group']);
                 break;
+                case "update_result":
+                    updateResult($connection,$_POST['id_student'],$_POST['id_discipline'],$_POST['mark']);
+                break;
                 case "get_all_departments":
                         /*ЛОХ*/
                         $sql = "SELECT * FROM `users` WHERE `group_id`=3";
@@ -229,7 +232,7 @@ function get_students_by_group($connection,$id){
                                             <p id="select_term_error{$data['id_student']}" class="has-error" style="text-align: center;"></p>
                                         </td>
                                         <td><label>Предмет:</label></td>
-                                        <td><select name="select_discipline" class="select_discipline" id="{$data['id_student']}">
+                                        <td><select name="select_discipline" class="select_discipline to_change" id="{$data['id_student']}">
                                             </select>
                                             <p id="select_discipline_error{$data['id_student']}" class="has-error" style="text-align: center;"></p>
                                         </td>
@@ -243,7 +246,7 @@ function get_students_by_group($connection,$id){
                                             -->
                                         <td><label>Оценка:</label></td>
                                         <td>
-                                            <select name="select_mark" class="select_mark" id="{$data['id_student']}">
+                                            <select name="select_mark" class="select_mark to_change" id="{$data['id_student']}">
                                                 <option value="0" data-display="Оценка">Выберите оценку</option>";
                                                 <option value="2" data-display="2">2</option>";
                                                 <option value="3" data-display="3">3</option>";
@@ -314,19 +317,6 @@ function get_students_results($connection,$id_student){
     }
 }
 
-/*
-function checkSelected($connection,$id){
-    $query = mysqli_query($connection,"SELECT COURSE_ID FROM courses_selected WHERE USER_ID='{$_SESSION['user_id']}' AND COURSE_ID='$id'");
-    echo mysqli_error($connection);
-    return mysqli_num_rows($query) == 0;
-}
-
-function addGroup($connection,$name,$id_cur,$id_dep){
-    $query = mysqli_query($connection,"SELECT COURSE_ID FROM courses_selected WHERE USER_ID='{$_SESSION['user_id']}' AND COURSE_ID='$id'");
-    echo mysqli_error($connection);
-    return mysqli_num_rows($query) == 0;
-}*/
-
 function deleteGroupById($connection,$id){
     $query = mysqli_query($connection,"DELETE FROM groups WHERE id_group='{$id}'");
     echo mysqli_error($connection);
@@ -371,6 +361,12 @@ function updateCountStudents($connection,$id_group){
     $query_s = mysqli_query($connection,$sql);
     $student_count=mysqli_fetch_assoc($query_s)['count'];
     return $student_count;
+}
+
+function  updateResult($connection,$id_student,$id_discipline,$mark){
+    $sql ="UPDATE `results` SET `mark`='".$mark."' WHERE `id_student`=".$id_student." AND `id_discipline`=".$id_discipline;
+    $res =  mysqli_query($connection, $sql);
+    echo mysqli_error($connection);
 }
 
 function deleteResultById($connection,$id){

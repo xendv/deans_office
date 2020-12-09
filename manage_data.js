@@ -49,14 +49,14 @@ $(document).on ("click", ".st.drop", function (e) {
     $("#"+this.id+".st.dropdown").fadeToggle(200);
 });
 
-function validate(form,url,id_gr=""){
+function validate(form,url,id_gr="",check=formResult){
     //ajax form validation
     $.ajax({
         type: 'post',
         url: url,
         dataType: 'html',
         data:form.serialize()+"&id_gr="+id_gr,
-        success: formResult
+        success: check
     });
 }//
 
@@ -158,10 +158,20 @@ $(document).ready(function(e) {
     $(document).on("click",".add_res_btn",function(e) {
         e.preventDefault();
         //alert("1223");
-        validate($("#"+this.id+".add_res_form"),"add_res_ver.php",this.id);
-        consoleRequest("request=update_av_ball&id_student="+this.id,$(".td_av"+this.id));
-        consoleRequest("request=get_students_results&id_student="+this.id,$("#results_table"+this.id));
+        var id_student=this.id;
+        validate($("#"+this.id+".add_res_form"),"add_res_ver.php",this.id, function (html){
+            formResult(html);
+            //alert($("#existence_check_error"+id_student).html());
+            if ( $("#existence_check_error"+id_student).html()=="* У студента уже есть оценка") {
+                if(confirm('Изменить существующую оценку?')){
+                    consoleRequest("request=update_result&id_student="+id_student+"&id_discipline="+$("#"+id_student+".select_discipline.to_change").val()+"&mark="+$("#"+id_student+".select_mark.to_change").val()); 
+                }   
+            }
+            consoleRequest("request=update_av_ball&id_student="+id_student,$(".td_av"+id_student));
+            consoleRequest("request=get_students_results&id_student="+id_student,$("#results_table"+id_student));
+        }); 
     });
+
     //consoleRequest("request=get_all_groups",$("#group_table"));
     //consoleRequest("request=get_all_departments",$("#department_table"));
 });

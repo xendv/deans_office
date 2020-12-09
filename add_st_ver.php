@@ -9,6 +9,7 @@
     $response['new_st_f_name_error'] = "";
     $response['new_st_name_error'] = "";
     $response['new_st_m_name_error'] = "";
+    $response['new_st_error'] ="";
 
     //Фильтруем (убираем лишние пробелы)
     $new_st_f_name = filtered_input($_POST['new_st_f_name']);
