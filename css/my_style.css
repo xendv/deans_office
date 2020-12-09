@@ -42,3 +42,19 @@ table{
 }
 .orange_button:hover {background: rgba(219, 134, 78, 0.76); }
 .orange_button:active {background: rgb(168, 110, 43); }
+
+.orange_button.small{
+	position: relative; 
+	left: 50%;
+	transform: translate(-50%, 0);
+	font-size: small;
+	font-weight: 700;
+  	color: white;
+  	text-decoration: none;
+  	padding: .5rem 1rem;
+  	border-radius: 0.5rem;
+  	background: rgb(235, 143, 56);
+  	transition: 0.2s;
+}
+.orange_button.small:hover {background: rgba(219, 134, 78, 0.76); }
+.orange_button.small:active {background: rgb(168, 110, 43); }

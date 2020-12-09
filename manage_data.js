@@ -132,6 +132,18 @@ $(document).ready(function(e) {
         validate($("#"+this.id+".add_st_form"),"add_st_ver.php",this.id);
         consoleRequest("request=get_students_by_group&id_group="+this.id,$("#students_table"+this.id));
     });
+    $(document).on("click",".res.btn",function(e) {
+        e.preventDefault();
+        var id_res=this.id;
+        if (confirm('Удалить оценку?')){
+            dbDataRequest("request=get_student_id_by_result&id_result="+id_res,function (id_student){
+                consoleRequest("request=delete_result&id_result="+id_res,null);
+                consoleRequest("request=get_students_results&id_student="+id_student,$("#results_table"+id_student));
+                //consoleRequest("request=get_students_by_group&id_group="+group_id,$("#students_table"+group_id));
+                //обновить av_ball
+             });
+        }
+    });
     //consoleRequest("request=get_all_groups",$("#group_table"));
     //consoleRequest("request=get_all_departments",$("#department_table"));
 });

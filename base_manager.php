@@ -92,7 +92,10 @@ if (isset($_SESSION['user'])){
                     get_students_results($connection,$_POST['id_student']);
                 break;
                 case "get_student_group_by_id":
-                    get_student_group_by_id($connection,$_POST['id_student']);
+                    echo get_student_group_by_id($connection,$_POST['id_student']);
+                break;
+                case "get_student_id_by_result":
+                    echo get_student_id_by_result ($connection,$_POST['id_result']);
                 break;
                 case "get_all_departments":
                         /*ЛОХ*/
@@ -152,6 +155,9 @@ if (isset($_SESSION['user'])){
                 case "delete_student_by_id":
                         deleteStudentById($connection,$_POST['id_student']);
                     break;
+                case "delete_result":
+                        deleteResultById($connection,$_POST['id_result']);
+                    break;
             default :
                 break;
             }
@@ -182,7 +188,7 @@ function get_students_by_group($connection,$id){
                 <td colspan="4" class="dropdown st" id="{$data['id_student']}" style="display: none;">
                     <table class="table" id="results_table{$data['id_student']}">
                     </table>
-                    <button class="orange_button add_res btn" id="{$data['id_student']}" name="add_res" href="">Добавить оценку</button>
+                    <button class="orange_button add_res small btn" id="{$data['id_student']}" name="add_res" href="">Добавить оценку</button>
                 </td>
             </tr>
 
@@ -195,7 +201,15 @@ function get_student_group_by_id($connection,$id_student){
     $sql = "SELECT id_group FROM `students` WHERE id_student=".$id_student;
     $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
     echo mysqli_error($connection);
-    echo $res['id_group'];
+    return $res['id_group'];
+    ///был echo
+}
+
+function get_student_id_by_result($connection,$id_result){
+    $sql = "SELECT id_student FROM `results` WHERE id_result=".$id_result;
+    $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
+    echo mysqli_error($connection);
+    return $res['id_student'];
 }
 
 function get_students_results($connection,$id_student){
@@ -223,7 +237,6 @@ function get_students_results($connection,$id_student){
                 <td>{$data['type_att']}</td>
                 <td>{$data['mark']}</td>
                 <td><a href="#" class="res" id="res{$data['id_result']}">Изменить</a></td>
-                <td><a href="#" class="drop st" id="{$data['id_result']}">Показать</a></td>
                 <td><button class="btn btn-outline-danger res" style="margin: 0 auto" id="{$data['id_result']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
             </tr>
         EOF;
@@ -258,6 +271,18 @@ function deleteStudentById($connection,$id){
     $query = mysqli_query($connection,"DELETE FROM students WHERE id_student='{$id}'");
     echo mysqli_error($connection);
     $query = mysqli_query($connection,"DELETE FROM results WHERE id_student='{$id}'");
+    return mysqli_num_rows($query) != 0;
+}
+
+function deleteResultById($connection,$id){
+    //update av_ball
+    /*$sql = "SELECT mark FROM `results` WHERE id_result=".$id;
+    $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
+    echo mysqli_error($connection);
+    $mark=$res['mark']; */
+    $query = mysqli_query($connection,"DELETE FROM results WHERE id_result='{$id}'");
+    echo mysqli_error($connection);
+    //$query = mysqli_query($connection,"DELETE FROM results WHERE id_student='{$id}'");
     return mysqli_num_rows($query) != 0;
 }
 
