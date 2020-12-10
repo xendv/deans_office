@@ -46,10 +46,10 @@
     }
     //Проверяем наличие ошибок
     if($response['success']){
-        $sql = "SELECT `id_curriculum` FROM `curriculum` WHERE `num` = '". $c_select_curr_num ."'";
-        echo mysqli_error($link);
-        $row=mysqli_fetch_assoc(mysqli_query($link,$sql));
-        $c_select_curr=$row['id_curriculum'];
+        //$sql = "SELECT `id_curriculum` FROM `curriculum` WHERE `num` = '". $c_select_curr_num ."' AND id_department=".$c_select_depart;
+        //echo mysqli_error($link);
+        //$row=mysqli_fetch_assoc(mysqli_query($link,$sql));
+        $c_select_curr=$c_select_depart;
         $sql = "INSERT INTO `groups` (`id_curriculum`, `name`) VALUES ".
                     "('$c_select_curr','$c_group_name')";  
         echo mysqli_error($link);

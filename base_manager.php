@@ -11,7 +11,9 @@ if (isset($_SESSION['user'])){
             $filter_array = array();
             switch ($_POST['request']){
                 case "get_all_groups":
-                    $sql = "SELECT * FROM `groups`";
+                    //$sql = "SELECT * FROM `groups` INNER JOIN curriculum ON groups.id_curriculum=curriculum.id_curriculum ORDER BY curriculum.num, groups.name";
+                    $sql = "SELECT groups.name as name, groups.id_group as id_group, groups.id_curriculum as id_curriculum, curriculum.id_curriculum  FROM `groups` INNER JOIN curriculum ON groups.id_curriculum=curriculum.id_curriculum ORDER BY curriculum.num, groups.name";
+                    
                     $query = mysqli_query($connection,$sql);
                     echo <<<EOF
                         <thead>
@@ -25,7 +27,7 @@ if (isset($_SESSION['user'])){
                         //$sql="SELECT `num`, `name`, `id_department` FROM `curriculum` WHERE `id_curriculum`=".$data['id_curriculum'];
                         $sql="SELECT curriculum.num, curriculum.name, curriculum.id_department, departments.name as name1 FROM `curriculum`" 
                         ." INNER JOIN departments ON departments.id=curriculum.id_department"
-                        ." WHERE `id_curriculum`=".$data['id_curriculum']." ORDER BY curriculum.num";
+                        ." WHERE `id_curriculum`=".$data['id_curriculum']." ";
                         
                         $row = mysqli_fetch_assoc(mysqli_query($connection,$sql));
                         echo mysqli_error($connection);
@@ -184,7 +186,7 @@ if (isset($_SESSION['user'])){
 }
 
 function get_students_by_group($connection,$id){
-    $sql = "SELECT * FROM `students` WHERE `id_group`=".$id."";
+    $sql = "SELECT * FROM `students` WHERE `id_group`=".$id." ORDER BY full_name";
     $query = mysqli_query($connection,$sql);
     echo mysqli_error($connection);
     echo <<<EOF
