@@ -25,7 +25,7 @@ if (isset($_SESSION['user'])){
                         //$sql="SELECT `num`, `name`, `id_department` FROM `curriculum` WHERE `id_curriculum`=".$data['id_curriculum'];
                         $sql="SELECT curriculum.num, curriculum.name, curriculum.id_department, departments.name as name1 FROM `curriculum`" 
                         ." INNER JOIN departments ON departments.id=curriculum.id_department"
-                        ." WHERE `id_curriculum`=".$data['id_curriculum'];
+                        ." WHERE `id_curriculum`=".$data['id_curriculum']." ORDER BY curriculum.num";
                         
                         $row = mysqli_fetch_assoc(mysqli_query($connection,$sql));
                         echo mysqli_error($connection);
@@ -310,7 +310,7 @@ function get_students_results($connection,$id_student){
                 <td>{$data['name_discipline']}</td>
                 <td>{$data['type_att']}</td>
                 <td>{$data['mark']}</td>
-                <td><a href="#" class="res" id="res{$data['id_result']}">Изменить</a></td>
+                <!--<td><a href="#" class="res" id="res{$data['id_result']}">Изменить</a></td>-->
                 <td><button class="btn btn-outline-danger res" style="margin: 0 auto" id="{$data['id_result']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
             </tr>
         EOF;

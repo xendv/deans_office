@@ -73,8 +73,9 @@
                                 <div class = "content">
                                     <text class="table" >
                                     <table class="table" style="text-align: center;">
-                                        <tr><td>Логин:</td> <td><?php echo $_SESSION['user_login']?></td></tr>
-                                        <!--<tr><td>Фамилия: </td> <td><?php echo $_SESSION['user_f_name']?></td></tr>
+                                        <hr>
+                                        <!--<tr><td>Логин:</td> <td><?php echo $_SESSION['user_login']?></td></tr>
+                                        <tr><td>Фамилия: </td> <td><?php echo $_SESSION['user_f_name']?></td></tr>
                                         <tr><td>Имя:  </td> <td><?php echo $_SESSION['user_name']?></td></tr>
                                         <tr><td>Отчество: </td> <td> <?php echo $_SESSION['user_m_name']?></td></tr>
                                         <tr><td>Текущий балл: </td> <td><?php echo $_SESSION['user_score']?></td></tr> -->
@@ -92,8 +93,13 @@
                         <!-- Blog Content -->
                         <div class="blog-content align-items-center">
                             <h4 style="text-align: center">Управление кафедрами</h4>
-                            <div class="forms" style="align-items: center">
-                                <form id="change_pass_form" action="#" method="POST">
+                            <div class = "content">
+                                <text class="table" >
+                                <table class="table" style="text-align: center;">
+                                    <hr>
+                           <!--<div class="forms" style="align-items: center">
+                            <hr>
+                                 <form id="change_pass_form" action="#" method="POST">
                                     <table class="table">
                                         <tr></tr>
                                         <td>Текущий пароль:</td>
@@ -117,7 +123,7 @@
                             </table>
                             <hr>
                             <p id="result"  style="text-align: center; color:green;"></p> </br>
-                            <!--<button class="orange_button" name="change_pass" id="change_pass" href="#">Подтвердить изменения</button>-->
+                            <button class="orange_button" name="change_pass" id="change_pass" href="#">Подтвердить изменения</button>
                             </form>
                             <script type="text/javascript">
                                 $(document).on("click", "#change_pass", function (e) {
@@ -141,7 +147,10 @@
                                         }
                                     });
                                 });
-                            </script>
+                            </script>-->
+                                </table>
+                            </text>
+                            </div>
                             <button class="orange_button to_departments btn" name="to_departments" id="to_departments" href="">Отобразить кафедры</button>
                             </div>
                         </div>
