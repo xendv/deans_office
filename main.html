@@ -61,12 +61,12 @@
     <!--<h3  style="text-align: center; margin-top: 10px;margin-bottom: 10px">Текущий балл: <?php echo $_SESSION['user_score']?></h3>  -->
   
     <!-- ##### Personal Data Start ##### -->
-    <section class="blog-area blog-page section-padding-100" style="padding-top: 50px;padding-bottom: 0px ">
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Temporary Data -->
-                <div class="col-12 col-lg-6">
-                    <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="250ms">
+<section class="blog-area blog-page section-padding-100" style="padding-top: 50px;padding-bottom: 0px ">
+    <div class="container-fluid">
+        <div class="row">
+                <!-- Управление группами -->
+            <div class="col-12 col-lg-6">
+                    <div class="single-blog-area wow fadeInUp" data-wow-delay="250ms">
                         <!-- Blog Content -->
                         <div class="blog-content align-items-center">
                                 <h4 style="text-align: center;">Управление группами</h4>
@@ -85,11 +85,11 @@
                                 </div>
                         </div>
                     </div>
-                </div>
+            </div>
 
-                <!-- Change password -->
+                <!-- Управление кафедрами -->
                 <div class="col-12 col-lg-6">
-                    <div class="single-blog-area mb-100 wow fadeInUp" data-wow-delay="250ms">
+                    <div class="single-blog-area wow fadeInUp" data-wow-delay="250ms">
                         <!-- Blog Content -->
                         <div class="blog-content align-items-center">
                             <h4 style="text-align: center">Управление кафедрами</h4>
@@ -152,14 +152,61 @@
                             </text>
                             </div>
                             <button class="orange_button to_departments btn" name="to_departments" id="to_departments" href="">Отобразить кафедры</button>
-                            </div>
                         </div>
+                    </div>
+                </div>
+        </div>
+       
+    </div>
+</section>
+    <!-- ##### Personal Data End ##### -->
+
+
+    <div class="regular-page-area content-padding-40" style="margin-bottom: 2rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!--<table><div class="page-content white-bg show-groups-block" id="show-groups-block" >-->
+                        <div class="col-12 align-items-center" >
+                            <div class="page-content white-bg find-student-block align-items-center" style="margin: 10px;">
+                                <div class="forms" style="align-items: center">
+                                    <form id="find_student_form" action="" method="POST">
+                                        <!--<table>-->
+                                                        <table class="table">
+                                                        <p style="text-align: center;">Пожалуйста, заполните данные ниже</p>
+                                                        <tr>
+                                                            <td><label>Фамилия</label></td>
+                                                            <td><input type="text" class="form-control" name="f_name" size="10"
+                                                                    maxlength="10" required>
+                                                                <p id="f_name_error" class="has-error" style="text-align: center;"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label>Направление:</label></td>
+                                                            <td><select name="select_curr" class="select_curr" id="select_curr">
+                                                                </select>
+                                                                <p id="select_curr_error" class="has-error" style="text-align: center;"></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label>Кафедра:</label></td>
+                                                            <td>
+                                                            <select name="select_depart" class="select_depart" id="select_depart">
+                                                            </select>
+                                                            <p id="select_depart_error" style="text-align: center;" class="has-error" ></p></td>
+                                                        </tr>
+                                                        </table>
+                                            <hr>
+                                        <button class="orange_button find_st_btn btn" id="find_st_btn" name="find_st_btn" href="">Найти</button>
+                                    </form>
+                                </div>
+                            </div>
+                       </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- ##### Personal Data End ##### -->
+    </div>
 
     <!-- ##### Students' Data Start ##### -->
     <h4 style="text-align:center;" id="data_block_header">Выбранные для отображения данные</h4> 
