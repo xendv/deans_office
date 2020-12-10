@@ -11,7 +11,6 @@ if (isset($_SESSION['user'])){
             $filter_array = array();
             switch ($_POST['request']){
                 case "get_all_groups":
-                    //$sql = "SELECT * FROM `groups` INNER JOIN curriculum ON groups.id_curriculum=curriculum.id_curriculum ORDER BY curriculum.num, groups.name";
                     $sql = "SELECT groups.name as name, groups.id_group as id_group, groups.id_curriculum as id_curriculum, curriculum.id_curriculum  FROM `groups` INNER JOIN curriculum ON groups.id_curriculum=curriculum.id_curriculum ORDER BY curriculum.num, groups.name";
                     
                     $query = mysqli_query($connection,$sql);
