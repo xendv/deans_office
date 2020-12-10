@@ -73,15 +73,22 @@ function formResult(html){
                 }
             });
 }
-
+/*
 function updateGroups(html){
     $("#show-data-block").html(html);
     //formPages();
-}
+}*/
 
 function updateGroups(html){
     $("#show-data-block2").html(html);
     //formPages();
+}
+function validFindStudentForm(inp_field){
+    consoleRequest("request=get_groups_for_options&fio_part="+inp_field.value,$("#select_group"));
+    //$("#select_group").change(function () {
+        //consoleRequest("request=get_deps_for_options&num="+this.value,$("#select_depart"));
+        //consoleRequest("request=get_students_results&id_student="+id_student,$("#results_table"+id_student));
+    //});
 }
 
 $(document).ready(function(e) {

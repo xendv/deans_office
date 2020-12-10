@@ -169,9 +169,34 @@ if (isset($_SESSION['user'])){
                         EOF;
                     }
                 break;
-                    case "delete_group_by_id":
-                        deleteGroupById($connection,$_POST['id_group']);
-                    break;
+                case "get_groups_for_options":
+                    $query=getGroupsForOptionsByFioPart($connection,$_POST['fio_part']);
+                    if(mysqli_num_rows($query)==0){
+                        echo <<<EOF
+                        <option value="0" data-display="Не найдено">Не найдено</option>";
+                        EOF;
+                    }
+                    elseif(mysqli_num_rows($query)>1){
+                        echo <<<EOF
+                        <option value="0" data-display="Выберите группу">Выберите Группу</option>";
+                        EOF;
+                        while ($row=mysqli_fetch_assoc($query)){
+                            echo <<<EOF
+                            <option value="{$row['id_student']}">{$row['name']}</option>
+                            EOF;
+                        }
+                    }
+                    else{
+                        $row=mysqli_fetch_assoc($query);
+                        echo <<<EOF
+                            <option value="{$row['id_student']}">{$row['name']}</option>
+                        EOF;
+                    }
+                    // продолжить
+                break;
+                case "delete_group_by_id":
+                    deleteGroupById($connection,$_POST['id_group']);
+                break;
                 case "delete_student_by_id":
                         deleteStudentById($connection,$_POST['id_student']);
                     break;
@@ -385,8 +410,7 @@ function deleteResultById($connection,$id){
     return mysqli_error($connection);//mysqli_num_rows($query) != 0;
 }
 
-
-
+// lists' options' dynamic fill-in
 function getUniqueCurrList($connection){
     $query = mysqli_query($connection,"SELECT * FROM curriculum GROUP BY num");
     echo mysqli_error($connection);
@@ -406,6 +430,14 @@ function getDisListForTerm($connection,$term,$id_group){
     $sql="SELECT groups.id_curriculum, disciplines.name_discipline, disciplines.id_discipline, "
     ."disciplines.type_att FROM `disciplines` INNER JOIN groups ON disciplines.id_curriculum=groups.id_curriculum "
     ."WHERE groups.id_group=".$id_group." AND disciplines.id_term=".$term;
+    $query = mysqli_query($connection,$sql);
+    echo mysqli_error($connection);
+    return $query;
+}
+
+function getGroupsForOptionsByFioPart($connection,$fio_part){
+    $sql="SELECT students.id_student as id_student, students.id_group as id_group, groups.name as name "
+    ."FROM students INNER JOIN groups ON groups.id_group=students.id_group WHERE students.full_name LIKE '".$fio_part."%'";
     $query = mysqli_query($connection,$sql);
     echo mysqli_error($connection);
     return $query;
