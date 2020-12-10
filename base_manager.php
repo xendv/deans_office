@@ -410,29 +410,3 @@ function getDisListForTerm($connection,$term,$id_group){
     echo mysqli_error($connection);
     return $query;
 }
-
-
-/*
-function formDataArray($row){
-    //form data array
-    $response = array();
-    $response['login'] = $_SESSION['user_login'];
-    $response['f_name'] = $_SESSION['user_f_name'];
-    $response['name']= $_SESSION['user_name'];
-    $response['m_name']= $_SESSION['user_m_name'];
-    $response['gender'] = $row['gender'];
-    $response['nation'] = $row['nation'];
-    $response['birth_date'] = $row['birth'];
-    $response['number'] = $row['phone'];
-    $response['adress'] = $row['address'];
-    $response['pas_ser'] = $row['pas_ser'];
-    $response['pas_num'] = $row['pas_num'];
-    $response['pas_who'] = $row['pas_who'];
-    $response['pas_code'] = $row['pas_code'];
-    $response['pas_date'] = $row['pas_date'];
-    $response['edu_type'] = $row['edu_type'];
-    $response['edu_who'] = $row['edu_who'];
-    $response['edu_num'] = $row['edu_num'];
-    $response['edu_year'] = $row['edu_year'];
-    return $response;
-}*/
