@@ -88,6 +88,91 @@ if (isset($_SESSION['user'])){
                 case "get_students_by_group":
                     get_students_by_group($connection,$_POST['id_group']);
                 break;
+                case "get_students_by_fio_part":
+                    $query=getGroupsForOptionsByFioPart($connection,$_POST['fio_part']);
+                    echo <<<EOF
+                    <thead>
+                        <tr> <th>Группа</th> <th>ФИО</th> <th>Средний балл</th> <th>-</th> <th>Оценки</th></tr>
+                    </thead>
+                    EOF;
+                    while($data = mysqli_fetch_assoc($query)){
+                        echo mysqli_error($connection);
+                        echo <<<EOF
+                            <tbody>
+                            <tr>
+                                <td>{$data['name']}</td>
+                                <td>{$data['full_name']}</td>
+                                <td class="td_av{$data['id_student']}" id="{$data['id_student']}">{$data['av_ball']}</td>
+                                <td></td>
+                                <!--<td><a href="#" class="" id="st_{$data['id_student']}">Изменить</a></td>-->
+                                <td><a href="#" class="drop st" id="{$data['id_student']}">Показать</a></td>
+                                <td><button class="btn btn-outline-danger st" style="margin: 0 auto" id="{$data['id_student']}" href="#"><span class="material-icons arrow-icon">delete_outline</span></button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="dropdown st" id="{$data['id_student']}" style="display: none;">
+                                    <table class="table" id="results_table{$data['id_student']}">
+                                    </table>
+                                    <button class="orange_button add_res small btn" id="{$data['id_student']}" name="add_res" href="">Добавить оценку</button>
+                                    <div class="show-add-res-block{$data['id_student']} align-items-center" id="add_res_block{$data['id_student']}" style="margin: 10px;display: none;">
+                                        <div class="forms" style="align-items: center">
+                                            <form id="{$data['id_student']}" class="add_res_form" action="" method="POST">
+                                                <table class="table">
+                                                    <p style="text-align: center;">Пожалуйста, заполните данные ниже, чтобы добавить оценку</p>
+                                                    <tr>
+                                                        <td><label>Семестр</label></td>
+                                                        <td>
+                                                            <select name="select_term" class="select_term" id="{$data['id_student']}">
+                                                                <option value="0" data-display="Семестр">Выберите семестр</option>";
+                                                                <option value="1" data-display="1">1</option>";
+                                                                <option value="2" data-display="2">2</option>";
+                                                                <option value="3" data-display="3">3</option>";
+                                                                <option value="4" data-display="4">4</option>";
+                                                                <option value="5" data-display="5">5</option>";
+                                                                <option value="6" data-display="6">6</option>";
+                                                                <option value="7" data-display="7">7</option>";
+                                                                <option value="8" data-display="8">8</option>";
+                                                                <option value="9" data-display="9">9</option>";
+                                                                <option value="10" data-display="10">10</option>";
+                                                            </select>
+                                                            <p id="select_term_error{$data['id_student']}" class="has-error" style="text-align: center;"></p>
+                                                        </td>
+                                                        <td><label>Предмет:</label></td>
+                                                        <td><select name="select_discipline" class="select_discipline to_change" id="{$data['id_student']}">
+                                                            </select>
+                                                            <p id="select_discipline_error{$data['id_student']}" class="has-error" style="text-align: center;"></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <!--<td><label>Тип аттестации:</label></td>
+                                                        <td>
+                                                            <select name="select_type" class="select_type" id="{$data['id_student']}">
+                                                            </select>
+                                                            <p id="select_type_error{$data['id_student']}" style="text-align: center;" class="has-error" ></p></td>
+                                                            -->
+                                                        <td><label>Оценка:</label></td>
+                                                        <td>
+                                                            <select name="select_mark" class="select_mark to_change" id="{$data['id_student']}">
+                                                                <option value="0" data-display="Оценка">Выберите оценку</option>";
+                                                                <option value="2" data-display="2">2</option>";
+                                                                <option value="3" data-display="3">3</option>";
+                                                                <option value="4" data-display="4">4</option>";
+                                                                <option value="5" data-display="5">5</option>";
+                                                            </select>
+                                                            <p id="select_mark_error}" style="text-align: center;" class="has-error"></p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <p id="existence_check_error{$data['id_student']}" style="text-align: center;" class="has-error"></p>
+                                                <button class="orange_button small add_res_btn btn" id="{$data['id_student']}" name="add_res_btn" href="">Подтвердить</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            EOF;
+                            echo '</tbody>';
+                    }
+                break;
                 case "get_students_results":
                     get_students_results($connection,$_POST['id_student']);
                 break;
@@ -173,23 +258,23 @@ if (isset($_SESSION['user'])){
                     $query=getGroupsForOptionsByFioPart($connection,$_POST['fio_part']);
                     if(mysqli_num_rows($query)==0){
                         echo <<<EOF
-                        <option value="0" data-display="Не найдено">Не найдено</option>";
+                        <option value="--" data-display="Не найдено">Не найдено</option>";
                         EOF;
                     }
                     elseif(mysqli_num_rows($query)>1){
                         echo <<<EOF
-                        <option value="0" data-display="Выберите группу">Выберите Группу</option>";
+                        <option value="-" data-display="Выберите группу">Выберите Группу</option>";
                         EOF;
                         while ($row=mysqli_fetch_assoc($query)){
                             echo <<<EOF
-                            <option value="{$row['id_student']}">{$row['name']}</option>
+                            <option value="{$row['id_student']}">{$row['name']} ({$row['full_name']})</option>
                             EOF;
                         }
                     }
                     else{
                         $row=mysqli_fetch_assoc($query);
                         echo <<<EOF
-                            <option value="{$row['id_student']}">{$row['name']}</option>
+                            <option value="{$row['id_student']}">{$row['name']}  ({$row['full_name']})</option>
                         EOF;
                     }
                     // продолжить
@@ -436,8 +521,8 @@ function getDisListForTerm($connection,$term,$id_group){
 }
 
 function getGroupsForOptionsByFioPart($connection,$fio_part){
-    $sql="SELECT students.id_student as id_student, students.id_group as id_group, groups.name as name "
-    ."FROM students INNER JOIN groups ON groups.id_group=students.id_group WHERE students.full_name LIKE '".$fio_part."%'";
+    $sql="SELECT students.id_student as id_student, students.full_name as full_name, students.id_group as id_group, groups.name as name "
+    ."FROM students INNER JOIN groups ON groups.id_group=students.id_group WHERE students.full_name LIKE '".$fio_part."%' ORDER BY groups.name, full_name";
     $query = mysqli_query($connection,$sql);
     echo mysqli_error($connection);
     return $query;

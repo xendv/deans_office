@@ -84,11 +84,39 @@ function updateGroups(html){
     //formPages();
 }
 function validFindStudentForm(inp_field){
-    consoleRequest("request=get_groups_for_options&fio_part="+inp_field.value,$("#select_group"));
+    if(inp_field.value!=""){
+        consoleRequest("request=get_groups_for_options&fio_part="+inp_field.value,$("#select_group"));
+        if($("#select_group").val=="0"){
+            $("#fio_name_error").text(""); 
+        }
+        consoleRequest("request=get_students_by_fio_part&fio_part="+inp_field.value,$("#students_by_fio_table"));
+        $("#select_group").change(function () {
+            if($("#select_group").val=="-"){
+                $("#fio_name_error").text("Выберите группу"); 
+            }
+            else if($("#select_group").val=="--"){
+                $("#fio_name_error").text("Студент не найден"); 
+            }
+        });
+        $('#students_by_fio_table').style.display="visible";
+    }
+    /*$("#select_group").change(function () {
+        if($("#select_group").val=="-"){
+            $("#fio_name_error").text("Выберите группу"); 
+        }
+        else if($("#select_group").val=="--"){
+            $("#fio_name_error").text("Студент не найден"); 
+        }
+    */
+    
     //$("#select_group").change(function () {
         //consoleRequest("request=get_deps_for_options&num="+this.value,$("#select_depart"));
         //consoleRequest("request=get_students_results&id_student="+id_student,$("#results_table"+id_student));
     //});
+}
+
+function showButton(){
+    if($("#select_group").val!="--" && $("#select_group").val!="-") $('#find_st_btn').style.display="visible"; 
 }
 
 $(document).ready(function(e) {

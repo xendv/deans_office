@@ -179,8 +179,8 @@
                                         <td><label>Фамилия</label></td>
                                         <td><input type="text" class="form-control" name="f_name" size="15"
                                                 maxlength="30" onkeyup="validFindStudentForm(this)" required>
-                                            <span id="msg">Такого студента в базе нет</span>
-                                            <p id="f_name_error" class="has-error" style="text-align: center;"></p>
+                                            
+                                            <p id="fio_name_error" class="has-error" style="text-align: center;"></p>
                                         </td>
 
                                         <td><label>Группа:</label></td>
@@ -205,6 +205,9 @@
                                 <button class="orange_button find_st_btn btn" id="find_st_btn" name="find_st_btn"
                                     href="">Найти</button>
                             </form>
+                            <table class="table" id="students_by_fio_table">
+                                
+                            </table>
                         </div>
                     </div>
                 </div>
