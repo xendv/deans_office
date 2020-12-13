@@ -88,6 +88,12 @@ if (isset($_SESSION['user'])){
                 case "get_students_by_group":
                     get_students_by_group($connection,$_POST['id_group']);
                 break;
+                case "get_fio":
+                    $sql="SELECT full_name FROM students WHERE id_student=".$_POST['id_student'];
+                    $res=mysqli_fetch_assoc(mysqli_query($connection,$sql));
+                    echo mysqli_error($connection);
+                    echo $res['full_name'];
+                break;
                 case "get_students_by_fio_part":
                     $query=getGroupsForOptionsByFioPart($connection,$_POST['fio_part']);
                     echo <<<EOF
@@ -521,7 +527,7 @@ function getDisListForTerm($connection,$term,$id_group){
 }
 
 function getGroupsForOptionsByFioPart($connection,$fio_part){
-    $sql="SELECT students.id_student as id_student, students.full_name as full_name, students.id_group as id_group, groups.name as name "
+    $sql="SELECT students.id_student as id_student, students.full_name as full_name, students.id_group as id_group, students.av_ball as av_ball, groups.name as name "
     ."FROM students INNER JOIN groups ON groups.id_group=students.id_group WHERE students.full_name LIKE '".$fio_part."%' ORDER BY groups.name, full_name";
     $query = mysqli_query($connection,$sql);
     echo mysqli_error($connection);

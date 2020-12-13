@@ -73,11 +73,6 @@ function formResult(html){
                 }
             });
 }
-/*
-function updateGroups(html){
-    $("#show-data-block").html(html);
-    //formPages();
-}*/
 
 function updateGroups(html){
     $("#show-data-block2").html(html);
@@ -90,15 +85,8 @@ function validFindStudentForm(inp_field){
             $("#fio_name_error").text(""); 
         }
         consoleRequest("request=get_students_by_fio_part&fio_part="+inp_field.value,$("#students_by_fio_table"));
-        $("#select_group").change(function () {
-            if($("#select_group").val=="-"){
-                $("#fio_name_error").text("Выберите группу"); 
-            }
-            else if($("#select_group").val=="--"){
-                $("#fio_name_error").text("Студент не найден"); 
-            }
-        });
-        $('#students_by_fio_table').style.display="visible";
+
+        //$('#students_by_fio_table').style.display="visible";
     }
     /*$("#select_group").change(function () {
         if($("#select_group").val=="-"){
@@ -196,7 +184,6 @@ $(document).ready(function(e) {
         var id_student=this.id;
         validate($("#"+this.id+".add_res_form"),"add_res_ver.php",this.id, function (html){
             formResult(html);
-            //alert($("#existence_check_error"+id_student).html());
             if ( $("#existence_check_error"+id_student).html()=="* У студента уже есть оценка") {
                 if(confirm('Изменить существующую оценку?')){
                     consoleRequest("request=update_result&id_student="+id_student+"&id_discipline="+$("#"+id_student+".select_discipline.to_change").val()+"&mark="+$("#"+id_student+".select_mark.to_change").val()); 
@@ -205,6 +192,19 @@ $(document).ready(function(e) {
             consoleRequest("request=update_av_ball&id_student="+id_student,$(".td_av"+id_student));
             consoleRequest("request=get_students_results&id_student="+id_student,$("#results_table"+id_student));
         }); 
+    });
+
+    $("#select_group").change(function () {
+        if(this.value!="-" && this.value!="--"){
+            dbDataRequest("request=get_fio&id_student="+this.value,function (fio_part){
+                consoleRequest("request=get_students_by_fio_part&fio_part="+fio_part,$("#students_by_fio_table"));
+            });
+        }
+        else if (this.value=="-"){
+            //consoleRequest("request=get_students_by_fio_part&fio_part="+$("#fio_part_inp").value,$("#students_by_fio_table"));
+            validFindStudentForm(document.getElementById('fio_part_inp'));
+        }
+        
     });
 
     //consoleRequest("request=get_all_groups",$("#group_table"));
@@ -225,10 +225,6 @@ $(document).on("click",".add_group",function(e) {
 $(document).on("click",".add_st",function(e) {
     e.preventDefault();
     $('.show-add-st-block'+this.id).slideToggle(300); 
-    //consoleRequest("request=get_currs_for_options",$("#select_curr"));
-    //$("#select_curr").change(function () {
-    //    consoleRequest("request=get_deps_for_options&num="+this.value,$("#select_depart"));
-    //});
     return false;
 });
 
